@@ -4,4 +4,14 @@ import react from '@vitejs/plugin-react-swc'
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
+  server: {
+    proxy: {
+      '/api-soap': {
+        target: 'https://www.contadores.org.ar:8085',
+        changeOrigin: true,
+        secure: false,
+        rewrite: (path) => path.replace(/^\/api-soap/, '')
+      }
+    }
+  }
 })

@@ -1,0 +1,12 @@
+{
+  "rewrites": [
+    {
+      "source": "/api-soap/:path*",
+      "destination": "https://www.contadores.org.ar:8085/:path*"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
+}

@@ -180,7 +180,7 @@ export const RecoverPassword = async (user, dni, numberUser, type) => {
  </soapenv:Envelope>`;
 
     try {
-        const response = await axios.post('http://localhost:3001/', soapRequest, {
+        const response = await axios.post(import.meta.env.VITE_RECOVER_PASSWORD_URL || 'http://localhost:3001/', soapRequest, {
             headers: {
                 'Content-Type': 'text/xml;charset=UTF-8',
             },

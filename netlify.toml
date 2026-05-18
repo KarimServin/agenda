@@ -1,0 +1,18 @@
+# Configuración de Netlify para SPA React (Vite) y Proxy CORS
+
+[build]
+  publish = "dist"
+  command = "npm run build"
+
+# 1. Proxy para el Servidor SOAP para evitar problemas de CORS en producción
+[[redirects]]
+  from = "/api-soap/*"
+  to = "https://www.contadores.org.ar:8085/:splat"
+  status = 200
+  force = true
+
+# 2. Redirección para SPA (Rutas de react-router-dom)
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
