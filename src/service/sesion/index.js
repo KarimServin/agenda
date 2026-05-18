@@ -32,49 +32,63 @@ export const loginRequest = async (user, password) => {
     const parser = new DOMParser();
     const xmlDoc = parser.parseFromString(response.data, 'text/xml');
 
-    const tipo = xmlDoc.getElementsByTagName('Tipo')[0].textContent;
-    const numero = xmlDoc.getElementsByTagName('Numero')[0].textContent;
-    const parentesco = xmlDoc.getElementsByTagName('Parentesco')[0].textContent;
-    const denominacion = xmlDoc.getElementsByTagName('Denominacion')[0].textContent;
-    const socio = xmlDoc.getElementsByTagName('Socio')[0].textContent;
-    const estado = xmlDoc.getElementsByTagName('Estado')[0].textContent;
-    const estadod = xmlDoc.getElementsByTagName('Estadod')[0].textContent;
-    const demo = xmlDoc.getElementsByTagName('Demo')[0].textContent;
-    const css = xmlDoc.getElementsByTagName('Css')[0].textContent;
-    const cra = xmlDoc.getElementsByTagName('Cra')[0].textContent;
-    const dss = xmlDoc.getElementsByTagName('Dss')[0].textContent;
-    const cont = xmlDoc.getElementsByTagName('Cont')[0].textContent;
-    const interno = xmlDoc.getElementsByTagName('Interno')[0].textContent;
-    const cuit = xmlDoc.getElementsByTagName('Cuit')[0].textContent;
-    const email = xmlDoc.getElementsByTagName('Email')[0].textContent;
-    const telefonos = xmlDoc.getElementsByTagName('Telefonos')[0].textContent;
-    const sesion = xmlDoc.getElementsByTagName('Sesion')[0].textContent;
-    const delegacion = xmlDoc.getElementsByTagName('Delegacion')[0].textContent;
-    const delegaciond = xmlDoc.getElementsByTagName('Delegaciond')[0].textContent;
-    const delegaciondd = xmlDoc.getElementsByTagName('Delegaciondd')[0].textContent;
-    const domicilior = xmlDoc.getElementsByTagName('Domicilior')[0].textContent;
-    const postalr = xmlDoc.getElementsByTagName('Postalr')[0].textContent;
-    const postalrd = xmlDoc.getElementsByTagName('Postalrd')[0].textContent;
-    const domicilioe = xmlDoc.getElementsByTagName('Domicilioe')[0].textContent;
-    const postale = xmlDoc.getElementsByTagName('Postale')[0].textContent;
-    const postaled = xmlDoc.getElementsByTagName('Postaled')[0].textContent;
-    const provinciar = xmlDoc.getElementsByTagName('Provinciar')[0].textContent;
-    const provinciard = xmlDoc.getElementsByTagName('Provinciard')[0].textContent;
-    const provinciae = xmlDoc.getElementsByTagName('Provinciae')[0].textContent;
-    const provinciaed = xmlDoc.getElementsByTagName('Provinciaed')[0].textContent;
-    const usuario = xmlDoc.getElementsByTagName('Usuario')[0].textContent;
-    const iva = xmlDoc.getElementsByTagName('Iva')[0].textContent;
-    const fechan = xmlDoc.getElementsByTagName('Fechan')[0].textContent;
-    const fechaf = xmlDoc.getElementsByTagName('Fechaf')[0].textContent;
-    const fechag = xmlDoc.getElementsByTagName('Fechag')[0].textContent;
-    const fechama = xmlDoc.getElementsByTagName('Fechama')[0].textContent;
-    const fechamb = xmlDoc.getElementsByTagName('Fechamb')[0].textContent;
-    const foto = xmlDoc.getElementsByTagName('Foto')[0].textContent;
-    const firma = xmlDoc.getElementsByTagName('Firma')[0].textContent;
-    const push = xmlDoc.getElementsByTagName('Push')[0].textContent;
-    const empleado = xmlDoc.getElementsByTagName('Empleado')[0].textContent;
-    const errorid = xmlDoc.getElementsByTagName('Errorid')[0].textContent;
-    const errornombre = xmlDoc.getElementsByTagName('Errornombre')[0].textContent;
+    const getNodeText = (tag) => {
+      const nodes = xmlDoc.getElementsByTagName(tag);
+      return nodes.length > 0 ? nodes[0].textContent : "";
+    };
+
+    const faultString = getNodeText('faultstring') || getNodeText('error');
+    if (faultString) {
+      throw new Error(faultString);
+    }
+
+    const errorid = getNodeText('Errorid');
+    const errornombre = getNodeText('Errornombre');
+    if (errorid && errorid !== "0" && errorid !== "") {
+      throw new Error(errornombre || "Error desconocido del servidor");
+    }
+
+    const tipo = getNodeText('Tipo');
+    const numero = getNodeText('Numero');
+    const parentesco = getNodeText('Parentesco');
+    const denominacion = getNodeText('Denominacion');
+    const socio = getNodeText('Socio');
+    const estado = getNodeText('Estado');
+    const estadod = getNodeText('Estadod');
+    const demo = getNodeText('Demo');
+    const css = getNodeText('Css');
+    const cra = getNodeText('Cra');
+    const dss = getNodeText('Dss');
+    const cont = getNodeText('Cont');
+    const interno = getNodeText('Interno');
+    const cuit = getNodeText('Cuit');
+    const email = getNodeText('Email');
+    const telefonos = getNodeText('Telefonos');
+    const sesion = getNodeText('Sesion');
+    const delegacion = getNodeText('Delegacion');
+    const delegaciond = getNodeText('Delegaciond');
+    const delegaciondd = getNodeText('Delegaciondd');
+    const domicilior = getNodeText('Domicilior');
+    const postalr = getNodeText('Postalr');
+    const postalrd = getNodeText('Postalrd');
+    const domicilioe = getNodeText('Domicilioe');
+    const postale = getNodeText('Postale');
+    const postaled = getNodeText('Postaled');
+    const provinciar = getNodeText('Provinciar');
+    const provinciard = getNodeText('Provinciard');
+    const provinciae = getNodeText('Provinciae');
+    const provinciaed = getNodeText('Provinciaed');
+    const usuario = getNodeText('Usuario');
+    const iva = getNodeText('Iva');
+    const fechan = getNodeText('Fechan');
+    const fechaf = getNodeText('Fechaf');
+    const fechag = getNodeText('Fechag');
+    const fechama = getNodeText('Fechama');
+    const fechamb = getNodeText('Fechamb');
+    const foto = getNodeText('Foto');
+    const firma = getNodeText('Firma');
+    const push = getNodeText('Push');
+    const empleado = getNodeText('Empleado');
 
     const jsonData = {
       Tipo: tipo,
