@@ -164,8 +164,11 @@ export const checkLoginService = async () => {
     const parser = new DOMParser();
     const xmlDoc = parser.parseFromString(response.data, 'text/xml');
 
-    const errorid = xmlDoc.getElementsByTagName('Errorid')[0].textContent;
-    const errornombre = xmlDoc.getElementsByTagName('Errornombre')[0].textContent;
+    const erroridNode = xmlDoc.getElementsByTagName('Errorid')[0];
+    const errorid = erroridNode ? erroridNode.textContent : "";
+    
+    const errornombreNode = xmlDoc.getElementsByTagName('Errornombre')[0];
+    const errornombre = errornombreNode ? errornombreNode.textContent : "";
 
     const jsonData = {
       Sesion: sesion,
