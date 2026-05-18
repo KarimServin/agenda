@@ -29,27 +29,25 @@ export default async function handler(req, res) {
     if (typeof req.body === 'string') {
       bodyData = req.body;
     } else if (typeof req.body === 'object') {
-      // Si Vercel o axios de forma nativa procesaron el cuerpo, obtenemos la data cruda o stringified
-      bodyData = req.body.toString();
+      // Si el frontend no envió Content-Type: text/xml, Axios envía urlencoded. 
+      // Vercel lo parsea como objeto donde la key es el string XML completo.
+      bodyData = Object.keys(req.body)[0] || '';
     }
 
-    const response = await axios.post(targetUrl, req.body || bodyData, {
+    const response = await axios.post(targetUrl, bodyData, {
       headers: {
         'Content-Type': 'text/xml;charset=UTF-8',
         'SOAPAction': req.headers['soapaction'] || ''
       },
       httpsAgent: agent,
-      timeout: 15000
+      timeout: 15000,
+      validateStatus: () => true // NO lanzar error en HTTP 4xx o 5xx (típico de SOAP Faults)
     });
 
     res.setHeader('Content-Type', 'text/xml;charset=UTF-8');
-    res.status(200).send(response.data);
+    res.status(response.status).send(response.data);
   } catch (error) {
     console.error('Error in SOAP proxy serverless function:', error.message);
-    res.status(500).json({ 
-      error: 'Proxy Error connecting to SOAP', 
-      message: error.message,
-      details: error.response?.data || null 
-    });
+    res.status(500).send(`<?xml version="1.0" encoding="UTF-8"?><error>${error.message}</error>`);
   }
 }
