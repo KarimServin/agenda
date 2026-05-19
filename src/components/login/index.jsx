@@ -3,10 +3,12 @@ import { useNavigate } from "react-router-dom";
 import { checkLoginService, loginRequest } from "../../service/sesion";
 import LayoutLogin from "../layout/login";
 import { Button, Input, InputGroup, InputRightElement, useToast } from "@chakra-ui/react";
+import { useTask } from "../../provider/taskProvider";
 
 export default function Login() {
   const navigate = useNavigate();
   const toast = useToast()
+  const { refreshFilters } = useTask();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [show, setShow] = useState(false)
@@ -25,6 +27,8 @@ export default function Login() {
         localStorage.setItem("number", res.Numero || "");
         localStorage.setItem("img", res.Foto || "");
         localStorage.setItem("status", res.Estado || "");
+        // Trigger filter options load now that session is established
+        refreshFilters();
         toast({
           title: "Inicio de sesión correcto",
           description: `Bienvenid@ ${res.Usuario}`,

@@ -23,6 +23,13 @@ export const TaskProvider = ({ children }) => {
     const isMounted = useRef(false);
 
     const getFilters = useCallback(async () => {
+        // Only fetch if there is an active session
+        const user = localStorage.getItem('user');
+        const sesion = localStorage.getItem('sesion');
+        if (!user || !sesion) {
+            setLoading(false);
+            return;
+        }
         try {
             setLoading(true)
             const tags = await tagService();
@@ -33,6 +40,7 @@ export const TaskProvider = ({ children }) => {
             setLoading(false)
         } catch (error) {
             console.log(error);
+            setLoading(false);
         }
     }, []);
 
@@ -61,6 +69,11 @@ export const TaskProvider = ({ children }) => {
         getTask(filters);
     };
 
+    // Called after login to populate filter options
+    const refreshFilters = useCallback(() => {
+        getFilters();
+    }, [getFilters]);
+
     useEffect(() => {
         getFilters();
     }, [getFilters]);
@@ -74,7 +87,7 @@ export const TaskProvider = ({ children }) => {
     }, [filters, getTask]);
 
     return (
-        <TaskContext.Provider value={{ task, loading, filters, filterOptions, setFilters, triggerUpdate }}>
+        <TaskContext.Provider value={{ task, loading, filters, filterOptions, setFilters, triggerUpdate, refreshFilters }}>
             {children}
         </TaskContext.Provider>
     );

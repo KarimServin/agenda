@@ -5,10 +5,12 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 import dayjs from "dayjs";
+import { useTask } from "../../provider/taskProvider.jsx";
 dayjs.extend(customParseFormat);
 
 const Home = () => {
     const navigate = useNavigate()
+    const { refreshFilters } = useTask();
 
     const getSesion = async () => {
         const req = await checkLoginService()
@@ -19,6 +21,8 @@ const Home = () => {
 
     useEffect(() => {
         getSesion()
+        // Load filter options (types, tags, users, status) for existing sessions
+        refreshFilters()
     }, []);
 
     return (
