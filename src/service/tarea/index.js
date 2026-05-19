@@ -702,6 +702,10 @@ export const usersService = async () => {
 };
 
 function extractUserData(item) {
+  if (typeof window !== "undefined" && !window.loggedUserXml) {
+    console.log("DEBUG - User XML Node structure:", item.outerHTML || new XMLSerializer().serializeToString(item));
+    window.loggedUserXml = true;
+  }
   const codigo = item.querySelector("Codigo")?.textContent || "";
   const denominacion = item.querySelector("Denominacion")?.textContent || "";
 
