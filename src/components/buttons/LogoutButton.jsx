@@ -25,8 +25,14 @@ const LogoutButton = () => {
     };
 
     return (
-        <Tooltip hasArrow placement='bottom' label="Cerrar sesión">
-            <Button colorScheme='red' onClick={handleLogout}><BsBoxArrowRight /></Button>
+        <Tooltip hasArrow placement='bottom' label="Cerrar sesión" borderRadius="xl">
+            <button
+                type="button"
+                onClick={handleLogout}
+                className="p-2.5 bg-red-50 hover:bg-red-100 text-red-600 border border-red-200/50 hover:border-red-200 active:scale-95 rounded-xl flex items-center justify-center transition-all duration-200 shadow-sm"
+            >
+                <BsBoxArrowRight className="w-4 h-4" />
+            </button>
         </Tooltip>
     );
 };
