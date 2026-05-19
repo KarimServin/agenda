@@ -168,16 +168,19 @@ const FormComponent = () => {
     }
 
     return (
-        <div>
-            <>
+        <div className="p-1 sm:p-2">
+            <div className="bg-slate-50/50 rounded-2xl p-4 sm:p-6 border border-slate-100 shadow-sm">
                 <Grid templateColumns="repeat(3, 1fr)" gap={6}>
+                    {/* Tipo */}
                     <GridItem colSpan={1}>
                         <FormControl isRequired isInvalid={errors.selectedType}>
-                            <FormLabel>Tipo</FormLabel>
+                            <FormLabel className="text-xs font-bold uppercase tracking-wider text-slate-600 mb-2">Tipo</FormLabel>
                             <Select
                                 name='selectedType'
                                 onChange={handleInputChange}
                                 defaultValue={''}
+                                className="bg-white border-slate-200 hover:border-slate-300 rounded-xl text-slate-800 focus:border-[#1b365d] focus:ring-1 focus:ring-[#1b365d] transition-all shadow-sm"
+                                focusBorderColor="#1b365d"
                             >
                                 <option value='' disabled>Seleccione el tipo</option>
                                 {filterOptions.types.map(type => (
@@ -185,75 +188,87 @@ const FormComponent = () => {
                                 ))}
                             </Select>
                             {!errors.selectedType ? (
-                                <FormHelperText>
-                                    Seleccione el tipo de tarea que quiere crear.
-                                </FormHelperText>
+                                <FormHelperText className="text-[11px] text-slate-400">Seleccione el tipo de tarea.</FormHelperText>
                             ) : (
                                 <FormErrorMessage>{errors.selectedType}</FormErrorMessage>
                             )}
                         </FormControl>
                     </GridItem>
-                    <GridItem colSpan={1}>
+
+                    {/* Asunto */}
+                    <GridItem colSpan={{ base: 3, md: 2 }}>
                         <FormControl isRequired isInvalid={errors.title}>
-                            <FormLabel>Asunto</FormLabel>
+                            <FormLabel className="text-xs font-bold uppercase tracking-wider text-slate-600 mb-2">Asunto</FormLabel>
                             <Input
                                 type='text'
                                 name='title'
                                 value={formData.title}
-                                onChange={handleInputChange} />
+                                onChange={handleInputChange} 
+                                className="bg-white border-slate-200 hover:border-slate-300 rounded-xl text-slate-800 focus:border-[#1b365d] focus:ring-1 focus:ring-[#1b365d] transition-all shadow-sm"
+                                focusBorderColor="#1b365d"
+                                placeholder="Ej: Revisión de informe trimestral..."
+                            />
                             {!errors.title ? (
-                                <FormHelperText>
-                                    Introduce el asunto de la tarea.
-                                </FormHelperText>
+                                <FormHelperText className="text-[11px] text-slate-400">Introduce el asunto (mín. 10 caracteres).</FormHelperText>
                             ) : (
                                 <FormErrorMessage>{errors.title}</FormErrorMessage>
                             )}
                         </FormControl>
                     </GridItem>
 
-                    <GridItem colSpan={1}>
+                    {/* Descripción */}
+                    <GridItem colSpan={3}>
                         <FormControl isRequired isInvalid={errors.description}>
-                            <FormLabel>Descripción</FormLabel>
+                            <FormLabel className="text-xs font-bold uppercase tracking-wider text-slate-600 mb-2">Descripción</FormLabel>
                             <Textarea
                                 name='description'
                                 value={formData.description}
-                                onChange={handleInputChange} />
+                                onChange={handleInputChange} 
+                                rows={4}
+                                className="bg-white border-slate-200 hover:border-slate-300 rounded-xl text-slate-800 focus:border-[#1b365d] focus:ring-1 focus:ring-[#1b365d] transition-all resize-y shadow-sm"
+                                focusBorderColor="#1b365d"
+                                placeholder="Describe los detalles de la tarea aquí..."
+                            />
                             {!errors.description ? (
-                                <FormHelperText>
-                                    Introduce una descripción detallada de la tarea.
-                                </FormHelperText>
+                                <FormHelperText className="text-[11px] text-slate-400">Introduce una descripción detallada.</FormHelperText>
                             ) : (
                                 <FormErrorMessage>{errors.description}</FormErrorMessage>
                             )}
                         </FormControl>
                     </GridItem>
-                    <GridItem colSpan={1}>
+
+                    {/* Fecha */}
+                    <GridItem colSpan={{ base: 3, md: 1 }}>
                         <FormControl isRequired isInvalid={errors.date}>
-                            <FormLabel>Fecha</FormLabel>
+                            <FormLabel className="text-xs font-bold uppercase tracking-wider text-slate-600 mb-2">Fecha y Hora</FormLabel>
                             <Input
                                 type='datetime-local'
                                 name='date'
                                 value={formData.date}
-                                onChange={handleInputChange} />
+                                onChange={handleInputChange} 
+                                className="bg-white border-slate-200 hover:border-slate-300 rounded-xl text-slate-800 focus:border-[#1b365d] focus:ring-1 focus:ring-[#1b365d] transition-all shadow-sm"
+                                focusBorderColor="#1b365d"
+                            />
                             {!errors.date ? (
-                                <FormHelperText>
-                                    Introduce la fecha y hora de publicación de la tarea.
-                                </FormHelperText>
+                                <FormHelperText className="text-[11px] text-slate-400">Fecha de publicación/vencimiento.</FormHelperText>
                             ) : (
                                 <FormErrorMessage>{errors.date}</FormErrorMessage>
                             )}
                         </FormControl>
                     </GridItem>
 
-                    <GridItem colSpan={1}>
+                    {/* Tags */}
+                    <GridItem colSpan={{ base: 3, md: 1 }}>
                         <FormControl isRequired isInvalid={errors.selectedTags}>
-                            <FormLabel>Tag</FormLabel>
+                            <FormLabel className="text-xs font-bold uppercase tracking-wider text-slate-600 mb-2">Etiquetas</FormLabel>
                             <Select
                                 name='selectedTags'
                                 onChange={handleSelectChange}
                                 defaultValue={''}
+                                className="bg-white border-slate-200 hover:border-slate-300 rounded-xl text-slate-800 focus:border-[#1b365d] focus:ring-1 focus:ring-[#1b365d] transition-all shadow-sm"
+                                focusBorderColor="#1b365d"
                             >
-                                <option value='' disabled>Seleccione un tag</option>
+                                <option value='' disabled>Seleccione etiquetas</option>
                                 {filterOptions.tags.map(tag => (
                                     <option key={tag} value={tag}>{tag}</option>
                                 ))}
@@ -261,14 +276,13 @@ const FormComponent = () => {
                             {formData.selectedTags.length === 0 && (
                                 <FormErrorMessage>{errors.selectedTags}</FormErrorMessage>
                             )}
-                            <div>
+                            <div className="mt-2 flex flex-wrap gap-2">
                                 {formData.selectedTags.map(value => (
                                     <Tag
                                         key={value}
-                                        variant='solid'
+                                        variant='subtle'
                                         colorScheme='blue'
-                                        mr={2}
-                                        mt={2}
+                                        className="rounded-lg font-semibold"
                                     >
                                         <TagLabel>{value}</TagLabel>
                                         <TagCloseButton onClick={() => handleTagRemove('selectedTags', value)} />
@@ -278,37 +292,18 @@ const FormComponent = () => {
                         </FormControl>
                     </GridItem>
 
-
-
-                    {formData.selectedType === '3' && (
-                        <GridItem colSpan={1}>
-                            <FormControl isRequired isInvalid={errors.alcance}>
-                                <FormLabel>Alcance</FormLabel>
-                                <Input
-                                    type='text'
-                                    name='alcance'
-                                    value={formData.alcance}
-                                    onChange={handleInputChange} />
-                                {!errors.alcance ? (
-                                    <FormHelperText>
-                                        Introduce el alcance de la tarea.
-                                    </FormHelperText>
-                                ) : (
-                                    <FormErrorMessage>{errors.alcance}</FormErrorMessage>
-                                )}
-                            </FormControl>
-                        </GridItem>
-                    )}
-
-                    <GridItem colSpan={1}>
+                    {/* Usuarios */}
+                    <GridItem colSpan={{ base: 3, md: 1 }}>
                         <FormControl isRequired isInvalid={errors.selectedUsers}>
-                            <FormLabel>Usuarios afectados</FormLabel>
+                            <FormLabel className="text-xs font-bold uppercase tracking-wider text-slate-600 mb-2">Usuarios Afectados</FormLabel>
                             <Select
                                 name='selectedUsers'
                                 onChange={handleSelectChange}
                                 defaultValue={''}
+                                className="bg-white border-slate-200 hover:border-slate-300 rounded-xl text-slate-800 focus:border-[#1b365d] focus:ring-1 focus:ring-[#1b365d] transition-all shadow-sm"
+                                focusBorderColor="#1b365d"
                             >
-                                <option value='' disabled>Seleccione un usuario</option>
+                                <option value='' disabled>Seleccione usuarios</option>
                                 {filterOptions.users.map(user => (
                                     <option key={user.codigo} value={user.codigo}>{user.denominacion}</option>
                                 ))}
@@ -316,14 +311,13 @@ const FormComponent = () => {
                             {formData.selectedUsers.length === 0 && (
                                 <FormErrorMessage>{errors.selectedUsers}</FormErrorMessage>
                             )}
-                            <div>
+                            <div className="mt-2 flex flex-wrap gap-2">
                                 {formData.selectedUsers.map(value => (
                                     <Tag
                                         key={value}
-                                        variant='solid'
-                                        colorScheme='blue'
-                                        mr={2}
-                                        mt={2}
+                                        variant='subtle'
+                                        colorScheme='indigo'
+                                        className="rounded-lg font-semibold"
                                     >
                                         <TagLabel>{value}</TagLabel>
                                         <TagCloseButton onClick={() => handleTagRemove('selectedUsers', value)} />
@@ -332,33 +326,68 @@ const FormComponent = () => {
                             </div>
                         </FormControl>
                     </GridItem>
-                    <GridItem colSpan={1}>
+
+                    {/* Alcance (Conditional) */}
+                    {formData.selectedType === '3' && (
+                        <GridItem colSpan={{ base: 3, md: 1 }}>
+                            <FormControl isRequired isInvalid={errors.alcance}>
+                                <FormLabel className="text-xs font-bold uppercase tracking-wider text-slate-600 mb-2">Alcance</FormLabel>
+                                <Input
+                                    type='text'
+                                    name='alcance'
+                                    value={formData.alcance}
+                                    onChange={handleInputChange} 
+                                    className="bg-white border-slate-200 hover:border-slate-300 rounded-xl text-slate-800 focus:border-[#1b365d] focus:ring-1 focus:ring-[#1b365d] transition-all shadow-sm"
+                                    focusBorderColor="#1b365d"
+                                    placeholder="Defina el alcance..."
+                                />
+                                {!errors.alcance ? (
+                                    <FormHelperText className="text-[11px] text-slate-400">Introduce el alcance de la tarea.</FormHelperText>
+                                ) : (
+                                    <FormErrorMessage>{errors.alcance}</FormErrorMessage>
+                                )}
+                            </FormControl>
+                        </GridItem>
+                    )}
+
+                    {/* Privacidad */}
+                    <GridItem colSpan={formData.selectedType === '3' ? { base: 3, md: 2 } : 3}>
                         <FormControl isRequired isInvalid={errors.selectedPriv}>
-                            <FormLabel>Privacidad</FormLabel>
+                            <FormLabel className="text-xs font-bold uppercase tracking-wider text-slate-600 mb-3">Privacidad</FormLabel>
                             <RadioGroup
                                 onChange={(value) => setFormData({ ...formData, privado: Number(value) })}
                                 value={formData.privado}
                             >
-                                <Stack direction="row">
-                                    <Radio value={0}>Global</Radio>
-                                    <Radio value={1}>Privado</Radio>
+                                <Stack direction="row" spacing={8}>
+                                    <Radio value={0} colorScheme="blue" className="border-slate-300">
+                                        <span className="text-sm font-semibold text-slate-700">Pública (Global)</span>
+                                    </Radio>
+                                    <Radio value={1} colorScheme="blue" className="border-slate-300">
+                                        <span className="text-sm font-semibold text-slate-700">Privada</span>
+                                    </Radio>
                                 </Stack>
                             </RadioGroup>
-
                             {errors.selectedPriv && (
                                 <FormErrorMessage>{errors.selectedPriv}</FormErrorMessage>
                             )}
                         </FormControl>
                     </GridItem>
                 </Grid>
-                <Button
-                    mt={4}
-                    colorScheme='blue'
-                    onClick={handleSubmit}
-                >
-                    Crear Tarea
-                </Button>
-            </>
+
+                <div className="mt-8 pt-6 border-t border-slate-200 flex justify-end">
+                    <button
+                        type="button"
+                        onClick={handleSubmit}
+                        className="group relative overflow-hidden bg-[#1b365d] hover:bg-[#0f294a] active:bg-[#0a1c33] text-white py-3 px-8 rounded-xl text-sm font-bold tracking-wide shadow-lg shadow-indigo-950/20 flex items-center justify-center gap-3 transition-all hover:-translate-y-0.5"
+                    >
+                        <span className="relative z-10">Crear Nueva Tarea</span>
+                        <svg className="w-4 h-4 relative z-10 transition-transform duration-300 group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+                        </svg>
+                        <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out"></div>
+                    </button>
+                </div>
+            </div>
         </div>
     );
 };
