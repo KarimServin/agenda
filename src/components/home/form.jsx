@@ -180,7 +180,7 @@ const FormComponent = () => {
                                 name='selectedType'
                                 onChange={handleInputChange}
                                 defaultValue={''}
-                                className="bg-white border-slate-200 hover:border-slate-300 rounded-lg text-slate-800 focus:border-[#1b365d] focus:ring-1 focus:ring-[#1b365d] transition-all shadow-sm"
+                                className="bg-white border-slate-200 hover:border-slate-300 rounded-xl text-slate-800 focus:border-[#1b365d] focus:ring-1 focus:ring-[#1b365d] transition-all shadow-sm"
                                 focusBorderColor="#1b365d"
                             >
                                 <option value='' disabled>Seleccione el tipo</option>
@@ -206,7 +206,7 @@ const FormComponent = () => {
                                 name='title'
                                 value={formData.title}
                                 onChange={handleInputChange} 
-                                className="bg-white border-slate-200 hover:border-slate-300 rounded-lg text-slate-800 focus:border-[#1b365d] focus:ring-1 focus:ring-[#1b365d] transition-all shadow-sm"
+                                className="bg-white border-slate-200 hover:border-slate-300 rounded-xl text-slate-800 focus:border-[#1b365d] focus:ring-1 focus:ring-[#1b365d] transition-all shadow-sm"
                                 focusBorderColor="#1b365d"
                                 placeholder="Ej: Revisión de informe trimestral..."
                             />
@@ -228,7 +228,7 @@ const FormComponent = () => {
                                 value={formData.description}
                                 onChange={handleInputChange} 
                                 rows={3}
-                                className="bg-white border-slate-200 hover:border-slate-300 rounded-lg text-slate-800 focus:border-[#1b365d] focus:ring-1 focus:ring-[#1b365d] transition-all resize-y shadow-sm"
+                                className="bg-white border-slate-200 hover:border-slate-300 rounded-xl text-slate-800 focus:border-[#1b365d] focus:ring-1 focus:ring-[#1b365d] transition-all resize-y shadow-sm"
                                 focusBorderColor="#1b365d"
                                 placeholder="Describe los detalles de la tarea aquí..."
                             />
@@ -250,7 +250,7 @@ const FormComponent = () => {
                                 name='date'
                                 value={formData.date}
                                 onChange={handleInputChange} 
-                                className="bg-white border-slate-200 hover:border-slate-300 rounded-lg text-slate-800 focus:border-[#1b365d] focus:ring-1 focus:ring-[#1b365d] transition-all shadow-sm"
+                                className="bg-white border-slate-200 hover:border-slate-300 rounded-xl text-slate-800 focus:border-[#1b365d] focus:ring-1 focus:ring-[#1b365d] transition-all shadow-sm"
                                 focusBorderColor="#1b365d"
                             />
                             {!errors.date ? (
@@ -270,7 +270,7 @@ const FormComponent = () => {
                                 name='selectedTags'
                                 onChange={handleSelectChange}
                                 defaultValue={''}
-                                className="bg-white border-slate-200 hover:border-slate-300 rounded-lg text-slate-800 focus:border-[#1b365d] focus:ring-1 focus:ring-[#1b365d] transition-all shadow-sm"
+                                className="bg-white border-slate-200 hover:border-slate-300 rounded-xl text-slate-800 focus:border-[#1b365d] focus:ring-1 focus:ring-[#1b365d] transition-all shadow-sm"
                                 focusBorderColor="#1b365d"
                             >
                                 <option value='' disabled>Seleccione etiquetas</option>
@@ -288,7 +288,7 @@ const FormComponent = () => {
                                         size="sm"
                                         variant='subtle'
                                         colorScheme='blue'
-                                        className="rounded-md font-semibold"
+                                        className="rounded-lg font-semibold"
                                     >
                                         <TagLabel>{value}</TagLabel>
                                         <TagCloseButton onClick={() => handleTagRemove('selectedTags', value)} />
@@ -307,7 +307,7 @@ const FormComponent = () => {
                                 name='selectedUsers'
                                 onChange={handleSelectChange}
                                 defaultValue={''}
-                                className="bg-white border-slate-200 hover:border-slate-300 rounded-lg text-slate-800 focus:border-[#1b365d] focus:ring-1 focus:ring-[#1b365d] transition-all shadow-sm"
+                                className="bg-white border-slate-200 hover:border-slate-300 rounded-xl text-slate-800 focus:border-[#1b365d] focus:ring-1 focus:ring-[#1b365d] transition-all shadow-sm"
                                 focusBorderColor="#1b365d"
                             >
                                 <option value='' disabled>Seleccione usuarios</option>
@@ -325,7 +325,7 @@ const FormComponent = () => {
                                         size="sm"
                                         variant='subtle'
                                         colorScheme='indigo'
-                                        className="rounded-md font-semibold"
+                                        className="rounded-lg font-semibold"
                                     >
                                         <TagLabel>{value}</TagLabel>
                                         <TagCloseButton onClick={() => handleTagRemove('selectedUsers', value)} />
@@ -346,7 +346,7 @@ const FormComponent = () => {
                                     name='alcance'
                                     value={formData.alcance}
                                     onChange={handleInputChange} 
-                                    className="bg-white border-slate-200 hover:border-slate-300 rounded-lg text-slate-800 focus:border-[#1b365d] focus:ring-1 focus:ring-[#1b365d] transition-all shadow-sm"
+                                    className="bg-white border-slate-200 hover:border-slate-300 rounded-xl text-slate-800 focus:border-[#1b365d] focus:ring-1 focus:ring-[#1b365d] transition-all shadow-sm"
                                     focusBorderColor="#1b365d"
                                     placeholder="Defina el alcance..."
                                 />
@@ -390,8 +390,8 @@ const FormComponent = () => {
                         className="group relative overflow-hidden bg-[#1b365d] hover:bg-[#0f294a] active:bg-[#0a1c33] text-white py-2 px-6 rounded-lg text-xs font-bold tracking-wide shadow-md shadow-indigo-950/20 flex items-center justify-center gap-2 transition-all hover:-translate-y-0.5"
                     >
                         <span className="relative z-10">Crear Nueva Tarea</span>
-                        <svg className="w-3.5 h-3.5 relative z-10 transition-transform duration-300 group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+                        <svg className="w-4 h-4 relative z-10 transition-transform duration-300 group-hover:rotate-90" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
                         </svg>
                         <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out"></div>
                     </button>
