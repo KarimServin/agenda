@@ -10,9 +10,12 @@ export default function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [show, setShow] = useState(false)
+  const [loading, setLoading] = useState(false);
   const handleClick = () => setShow(!show)
 
   const handleLoginClick = async () => {
+    if (loading) return;
+    setLoading(true);
     try {
       const res = await loginRequest(username || "", password || "");
       if (res.Errorid === "0") {
@@ -39,6 +42,14 @@ export default function Login() {
       }
     } catch (error) {
       console.error("Error al iniciar sesión:", error);
+      toast({
+        title: "Error de servidor",
+        description: "No se pudo conectar con el servidor de autenticación.",
+        status: "error",
+        isClosable: true,
+      });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -100,6 +111,7 @@ export default function Login() {
                 className="premium-input bg-white/70 border-slate-200 hover:border-slate-300 focus:border-[#1b365d] rounded-xl text-slate-800 placeholder-slate-400"
                 required
                 focusBorderColor="#1b365d"
+                disabled={loading}
               />
             </InputGroup>
           </div>
@@ -122,6 +134,7 @@ export default function Login() {
                 className="premium-input bg-white/70 border-slate-200 hover:border-slate-300 focus:border-[#1b365d] rounded-xl text-slate-800 placeholder-slate-400"
                 required
                 focusBorderColor="#1b365d"
+                disabled={loading}
               />
               <InputRightElement width="3.5rem" h="full" className="flex items-center justify-center">
                 <button
@@ -129,6 +142,7 @@ export default function Login() {
                   onClick={handleClick}
                   className="p-2 rounded-xl text-slate-400 hover:text-[#1b365d] hover:bg-slate-100/80 active:scale-95 transition-all duration-200"
                   aria-label={show ? "Ocultar contraseña" : "Mostrar contraseña"}
+                  disabled={loading}
                 >
                   {show ? (
                     <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
@@ -149,12 +163,25 @@ export default function Login() {
             <button
               type="button"
               onClick={handleLoginClick}
-              className="premium-btn w-full bg-[#1b365d] hover:bg-[#0f294a] active:bg-[#0a1c33] text-white py-3.5 px-4 rounded-xl text-sm font-bold tracking-wide shadow-lg shadow-indigo-950/10 flex items-center justify-center gap-2"
+              disabled={loading}
+              className="premium-btn w-full bg-[#1b365d] hover:bg-[#0f294a] active:bg-[#0a1c33] disabled:opacity-80 disabled:cursor-not-allowed text-white py-3.5 px-4 rounded-xl text-sm font-bold tracking-wide shadow-lg shadow-indigo-950/10 flex items-center justify-center gap-2"
             >
-              <span>Ingresar al Sistema</span>
-              <svg className="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
-              </svg>
+              {loading ? (
+                <>
+                  <svg className="animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                  </svg>
+                  <span>Verificando credenciales...</span>
+                </>
+              ) : (
+                <>
+                  <span>Ingresar al Sistema</span>
+                  <svg className="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+                  </svg>
+                </>
+              )}
             </button>
           </div>
         </form>
