@@ -3,7 +3,7 @@ import dayjs from 'dayjs';
 // Desarrollo: 'http://localhost:8080/tarea'
 // Producción: Configurable mediante variables de entorno (.env) con fallback seguro
 export const SOAP_SERVER_URL = import.meta.env.VITE_SOAP_SERVER_URL || 'https://www.contadores.org.ar:8085/soap/Icpcesfe';
-export const version = "1.1.0"
+export const version = "1.2.0"
 
 export const capitalizeFirstLetter = (str) => {
   if (typeof str === 'string') {

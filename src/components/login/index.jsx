@@ -72,12 +72,12 @@ export default function Login() {
 
   return (
     <LayoutLogin>
-      <div className="glass-card w-full rounded-3xl p-8 sm:p-10 transition-all duration-500 hover:shadow-2xl">
-        <div className="text-center mb-8">
-          <h2 className="text-3xl font-extrabold tracking-tight text-slate-800">
+      <div className="glass-card w-full rounded-3xl p-6 sm:p-8 transition-all duration-500 hover:shadow-2xl">
+        <div className="text-center mb-6">
+          <h2 className="text-2xl font-extrabold tracking-tight text-slate-800">
             Iniciar Sesión
           </h2>
-          <p className="mt-2.5 text-sm text-slate-500 font-medium">
+          <p className="mt-1.5 text-xs text-slate-500 font-medium">
             Agenda de Comunicación Institucional
           </p>
         </div>
