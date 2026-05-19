@@ -60,19 +60,21 @@ const FiltersComponent = () => {
                                         onChange={(values) => handleFilterChange(values, 'types')}
                                     >
                                         <div className="grid grid-cols-2 gap-2 text-xs text-slate-600">
-                                            {filterOptions.types.map((e, index) => (
-                                                <Radio
-                                                    key={`type-${e.codigo || index}`}
-                                                    value={e.codigo}
-                                                    colorScheme="blue"
-                                                    size="sm"
-                                                    className="whitespace-nowrap overflow-hidden overflow-ellipsis"
-                                                >
-                                                    <span className="text-xs">
-                                                        {e.codigod && capitalizeFirstLetter(e.codigod.toLowerCase())}
-                                                    </span>
-                                                </Radio>
-                                            ))}
+                                            {filterOptions.types
+                                                .filter(e => e && e.codigo && e.codigod && e.codigod.trim())
+                                                .map((e, index) => (
+                                                    <Radio
+                                                        key={`type-${e.codigo || index}`}
+                                                        value={e.codigo}
+                                                        colorScheme="blue"
+                                                        size="sm"
+                                                        className="whitespace-nowrap overflow-hidden overflow-ellipsis"
+                                                    >
+                                                        <span className="text-xs">
+                                                            {capitalizeFirstLetter(e.codigod.toLowerCase())}
+                                                        </span>
+                                                    </Radio>
+                                                ))}
                                             <Radio
                                                 key="type-todos"
                                                 value=""
@@ -117,19 +119,21 @@ const FiltersComponent = () => {
                                         onChange={(values) => handleFilterChange(values, 'tags')}
                                     >
                                         <div className="grid grid-cols-2 gap-2 text-xs text-slate-600">
-                                            {filterOptions.tags.map((e, index) => (
-                                                <Checkbox
-                                                    key={`tag-${e || index}`}
-                                                    value={e}
-                                                    colorScheme="blue"
-                                                    size="sm"
-                                                    className="whitespace-nowrap overflow-hidden overflow-ellipsis"
-                                                >
-                                                    <span className="text-xs">
-                                                        {e && capitalizeFirstLetter(e.toLowerCase())}
-                                                    </span>
-                                                </Checkbox>
-                                            ))}
+                                            {filterOptions.tags
+                                                .filter(e => e && typeof e === 'string' && e.trim())
+                                                .map((e, index) => (
+                                                    <Checkbox
+                                                        key={`tag-${e || index}`}
+                                                        value={e}
+                                                        colorScheme="blue"
+                                                        size="sm"
+                                                        className="whitespace-nowrap overflow-hidden overflow-ellipsis"
+                                                    >
+                                                        <span className="text-xs">
+                                                            {capitalizeFirstLetter(e.toLowerCase())}
+                                                        </span>
+                                                    </Checkbox>
+                                                ))}
                                         </div>
                                     </CheckboxGroup>
                                 </PopoverBody>
@@ -165,19 +169,21 @@ const FiltersComponent = () => {
                                         onChange={(values) => handleFilterChange(values, 'users')}
                                     >
                                         <div className="grid grid-cols-2 gap-2 text-xs text-slate-600">
-                                            {filterOptions.users.map((e, index) => (
-                                                <Checkbox
-                                                    key={`user-${e.codigo || index}`}
-                                                    value={e.codigo}
-                                                    colorScheme="blue"
-                                                    size="sm"
-                                                    className="whitespace-nowrap overflow-hidden overflow-ellipsis"
-                                                >
-                                                    <span className="text-xs">
-                                                        {e.denominacion && capitalizeFirstLetter(e.denominacion.toLowerCase())}
-                                                    </span>
-                                                </Checkbox>
-                                            ))}
+                                            {filterOptions.users
+                                                .filter(e => e && e.codigo && e.denominacion && e.denominacion.trim())
+                                                .map((e, index) => (
+                                                    <Checkbox
+                                                        key={`user-${e.codigo || index}`}
+                                                        value={e.codigo}
+                                                        colorScheme="blue"
+                                                        size="sm"
+                                                        className="whitespace-nowrap overflow-hidden overflow-ellipsis"
+                                                    >
+                                                        <span className="text-xs">
+                                                            {capitalizeFirstLetter(e.denominacion.toLowerCase())}
+                                                        </span>
+                                                    </Checkbox>
+                                                ))}
                                         </div>
                                     </CheckboxGroup>
                                 </PopoverBody>
@@ -213,19 +219,21 @@ const FiltersComponent = () => {
                                         onChange={(values) => handleFilterChange(values, 'status')}
                                     >
                                         <div className="grid grid-cols-2 gap-2 text-xs text-slate-600">
-                                            {filterOptions.status.map((e, index) => (
-                                                <Radio
-                                                    key={`status-${e.codigo || index}`}
-                                                    value={e.codigo}
-                                                    colorScheme="blue"
-                                                    size="sm"
-                                                    className="whitespace-nowrap overflow-hidden overflow-ellipsis"
-                                                >
-                                                    <span className="text-xs">
-                                                        {e.codigod && capitalizeFirstLetter(e.codigod.toLowerCase())}
-                                                    </span>
-                                                </Radio>
-                                            ))}
+                                            {filterOptions.status
+                                                .filter(e => e && e.codigo && e.codigod && e.codigod.trim())
+                                                .map((e, index) => (
+                                                    <Radio
+                                                        key={`status-${e.codigo || index}`}
+                                                        value={e.codigo}
+                                                        colorScheme="blue"
+                                                        size="sm"
+                                                        className="whitespace-nowrap overflow-hidden overflow-ellipsis"
+                                                    >
+                                                        <span className="text-xs">
+                                                            {capitalizeFirstLetter(e.codigod.toLowerCase())}
+                                                        </span>
+                                                    </Radio>
+                                                ))}
                                             <Radio
                                                 key="status-todos"
                                                 value=""
