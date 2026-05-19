@@ -171,7 +171,7 @@ const FormComponent = () => {
         <div className="p-1">
             <div className="bg-slate-50/50 rounded-2xl p-4 sm:p-5 border border-slate-100 shadow-sm">
                 <Grid templateColumns="repeat(3, 1fr)" gap={5}>
-                    {/* Fila 1: Tipo, Asunto, Fecha y Hora */}
+                    {/* Fila 1: Tipo, Asunto, Fecha y Hora (Elementos de igual altura) */}
                     <GridItem colSpan={{ base: 3, md: 1 }}>
                         <FormControl isRequired isInvalid={errors.selectedType}>
                             <FormLabel className="text-[10px] font-bold uppercase tracking-wider text-slate-500 mb-1">Tipo</FormLabel>
@@ -240,29 +240,7 @@ const FormComponent = () => {
                         </FormControl>
                     </GridItem>
 
-                    {/* Fila 2: Descripción (2 cols) y Etiquetas (1 col) */}
-                    <GridItem colSpan={{ base: 3, md: 2 }}>
-                        <FormControl isRequired isInvalid={errors.description}>
-                            <FormLabel className="text-[10px] font-bold uppercase tracking-wider text-slate-500 mb-1">Descripción</FormLabel>
-                            <Textarea
-                                size="sm"
-                                name='description'
-                                value={formData.description}
-                                onChange={handleInputChange} 
-                                rows={3}
-                                borderRadius="2xl"
-                                className="bg-white border-slate-200 hover:border-slate-300 text-slate-800 focus:border-[#1b365d] focus:ring-1 focus:ring-[#1b365d] transition-all resize-y shadow-sm"
-                                focusBorderColor="#1b365d"
-                                placeholder="Describe los detalles de la tarea aquí..."
-                            />
-                            {!errors.description ? (
-                                <FormHelperText className="text-[10px] text-slate-400 mt-1">Detalles de la tarea.</FormHelperText>
-                            ) : (
-                                <FormErrorMessage className="text-[10px] mt-1">{errors.description}</FormErrorMessage>
-                            )}
-                        </FormControl>
-                    </GridItem>
-
+                    {/* Fila 2: Etiquetas, Usuarios Afectados, y Privacidad (o Alcance si Tipo es 3) */}
                     <GridItem colSpan={{ base: 3, md: 1 }}>
                         <FormControl isRequired isInvalid={errors.selectedTags}>
                             <FormLabel className="text-[10px] font-bold uppercase tracking-wider text-slate-500 mb-1">Etiquetas</FormLabel>
@@ -301,7 +279,6 @@ const FormComponent = () => {
                         </FormControl>
                     </GridItem>
 
-                    {/* Fila 3: Usuarios Afectados, Privacidad, Alcance */}
                     <GridItem colSpan={{ base: 3, md: 1 }}>
                         <FormControl isRequired isInvalid={errors.selectedUsers}>
                             <FormLabel className="text-[10px] font-bold uppercase tracking-wider text-slate-500 mb-1">Usuarios Afectados</FormLabel>
@@ -340,8 +317,8 @@ const FormComponent = () => {
                         </FormControl>
                     </GridItem>
 
-                    {/* Alcance (Conditional) */}
-                    {formData.selectedType === '3' && (
+                    {/* Columna condicional en Fila 2: Alcance si Tipo 3, de lo contrario Privacidad */}
+                    {formData.selectedType === '3' ? (
                         <GridItem colSpan={{ base: 3, md: 1 }}>
                             <FormControl isRequired isInvalid={errors.alcance}>
                                 <FormLabel className="text-[10px] font-bold uppercase tracking-wider text-slate-500 mb-1">Alcance</FormLabel>
@@ -363,31 +340,79 @@ const FormComponent = () => {
                                 )}
                             </FormControl>
                         </GridItem>
+                    ) : (
+                        <GridItem colSpan={{ base: 3, md: 1 }}>
+                            <FormControl isRequired isInvalid={errors.selectedPriv}>
+                                <FormLabel className="text-[10px] font-bold uppercase tracking-wider text-slate-500 mb-2">Privacidad</FormLabel>
+                                <RadioGroup
+                                    onChange={(value) => setFormData({ ...formData, privado: Number(value) })}
+                                    value={formData.privado}
+                                    className="h-[32px] flex items-center"
+                                >
+                                    <Stack direction="row" spacing={6}>
+                                        <Radio value={0} size="sm" colorScheme="blue" className="border-slate-300">
+                                            <span className="text-xs font-semibold text-slate-700">Pública (Global)</span>
+                                        </Radio>
+                                        <Radio value={1} size="sm" colorScheme="blue" className="border-slate-300">
+                                            <span className="text-xs font-semibold text-slate-700">Privada</span>
+                                        </Radio>
+                                    </Stack>
+                                </RadioGroup>
+                                {errors.selectedPriv && (
+                                    <FormErrorMessage className="text-[10px] mt-1">{errors.selectedPriv}</FormErrorMessage>
+                                )}
+                            </FormControl>
+                        </GridItem>
                     )}
 
-                    {/* Privacidad */}
-                    <GridItem colSpan={formData.selectedType === '3' ? { base: 3, md: 1 } : { base: 3, md: 2 }}>
-                        <FormControl isRequired isInvalid={errors.selectedPriv}>
-                            <FormLabel className="text-[10px] font-bold uppercase tracking-wider text-slate-500 mb-2">Privacidad</FormLabel>
-                            <RadioGroup
-                                onChange={(value) => setFormData({ ...formData, privado: Number(value) })}
-                                value={formData.privado}
-                                className="h-[32px] flex items-center"
-                            >
-                                <Stack direction="row" spacing={6}>
-                                    <Radio value={0} size="sm" colorScheme="blue" className="border-slate-300">
-                                        <span className="text-xs font-semibold text-slate-700">Pública (Global)</span>
-                                    </Radio>
-                                    <Radio value={1} size="sm" colorScheme="blue" className="border-slate-300">
-                                        <span className="text-xs font-semibold text-slate-700">Privada</span>
-                                    </Radio>
-                                </Stack>
-                            </RadioGroup>
-                            {errors.selectedPriv && (
-                                <FormErrorMessage className="text-[10px] mt-1">{errors.selectedPriv}</FormErrorMessage>
+                    {/* Fila 3: Descripción (Ancho completo) */}
+                    <GridItem colSpan={3}>
+                        <FormControl isRequired isInvalid={errors.description}>
+                            <FormLabel className="text-[10px] font-bold uppercase tracking-wider text-slate-500 mb-1">Descripción</FormLabel>
+                            <Textarea
+                                size="sm"
+                                name='description'
+                                value={formData.description}
+                                onChange={handleInputChange} 
+                                rows={2}
+                                borderRadius="2xl"
+                                className="bg-white border-slate-200 hover:border-slate-300 text-slate-800 focus:border-[#1b365d] focus:ring-1 focus:ring-[#1b365d] transition-all resize-y shadow-sm"
+                                focusBorderColor="#1b365d"
+                                placeholder="Describe los detalles de la tarea aquí..."
+                            />
+                            {!errors.description ? (
+                                <FormHelperText className="text-[10px] text-slate-400 mt-1">Detalles de la tarea.</FormHelperText>
+                            ) : (
+                                <FormErrorMessage className="text-[10px] mt-1">{errors.description}</FormErrorMessage>
                             )}
                         </FormControl>
                     </GridItem>
+
+                    {/* Fila 4 Condicional: Privacidad si Tipo es 3 (ya que Alcance ocupó su lugar en la Fila 2) */}
+                    {formData.selectedType === '3' && (
+                        <GridItem colSpan={3}>
+                            <FormControl isRequired isInvalid={errors.selectedPriv}>
+                                <FormLabel className="text-[10px] font-bold uppercase tracking-wider text-slate-500 mb-2">Privacidad</FormLabel>
+                                <RadioGroup
+                                    onChange={(value) => setFormData({ ...formData, privado: Number(value) })}
+                                    value={formData.privado}
+                                    className="h-[32px] flex items-center"
+                                >
+                                    <Stack direction="row" spacing={6}>
+                                        <Radio value={0} size="sm" colorScheme="blue" className="border-slate-300">
+                                            <span className="text-xs font-semibold text-slate-700">Pública (Global)</span>
+                                        </Radio>
+                                        <Radio value={1} size="sm" colorScheme="blue" className="border-slate-300">
+                                            <span className="text-xs font-semibold text-slate-700">Privada</span>
+                                        </Radio>
+                                    </Stack>
+                                </RadioGroup>
+                                {errors.selectedPriv && (
+                                    <FormErrorMessage className="text-[10px] mt-1">{errors.selectedPriv}</FormErrorMessage>
+                                )}
+                            </FormControl>
+                        </GridItem>
+                    )}
                 </Grid>
 
                 <div className="mt-5 pt-4 border-t border-slate-200 flex justify-end">
