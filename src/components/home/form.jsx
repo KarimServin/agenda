@@ -168,18 +168,19 @@ const FormComponent = () => {
     }
 
     return (
-        <div className="p-1 sm:p-2">
-            <div className="bg-slate-50/50 rounded-2xl p-4 sm:p-6 border border-slate-100 shadow-sm">
-                <Grid templateColumns="repeat(3, 1fr)" gap={6}>
+        <div className="p-1">
+            <div className="bg-slate-50/50 rounded-xl p-3 sm:p-4 border border-slate-100 shadow-sm">
+                <Grid templateColumns="repeat(3, 1fr)" gap={4}>
                     {/* Tipo */}
                     <GridItem colSpan={1}>
                         <FormControl isRequired isInvalid={errors.selectedType}>
-                            <FormLabel className="text-xs font-bold uppercase tracking-wider text-slate-600 mb-2">Tipo</FormLabel>
+                            <FormLabel className="text-[10px] font-bold uppercase tracking-wider text-slate-500 mb-1">Tipo</FormLabel>
                             <Select
+                                size="sm"
                                 name='selectedType'
                                 onChange={handleInputChange}
                                 defaultValue={''}
-                                className="bg-white border-slate-200 hover:border-slate-300 rounded-xl text-slate-800 focus:border-[#1b365d] focus:ring-1 focus:ring-[#1b365d] transition-all shadow-sm"
+                                className="bg-white border-slate-200 hover:border-slate-300 rounded-lg text-slate-800 focus:border-[#1b365d] focus:ring-1 focus:ring-[#1b365d] transition-all shadow-sm"
                                 focusBorderColor="#1b365d"
                             >
                                 <option value='' disabled>Seleccione el tipo</option>
@@ -188,9 +189,9 @@ const FormComponent = () => {
                                 ))}
                             </Select>
                             {!errors.selectedType ? (
-                                <FormHelperText className="text-[11px] text-slate-400">Seleccione el tipo de tarea.</FormHelperText>
+                                <FormHelperText className="text-[10px] text-slate-400 mt-1">Seleccione el tipo de tarea.</FormHelperText>
                             ) : (
-                                <FormErrorMessage>{errors.selectedType}</FormErrorMessage>
+                                <FormErrorMessage className="text-[10px] mt-1">{errors.selectedType}</FormErrorMessage>
                             )}
                         </FormControl>
                     </GridItem>
@@ -198,20 +199,21 @@ const FormComponent = () => {
                     {/* Asunto */}
                     <GridItem colSpan={{ base: 3, md: 2 }}>
                         <FormControl isRequired isInvalid={errors.title}>
-                            <FormLabel className="text-xs font-bold uppercase tracking-wider text-slate-600 mb-2">Asunto</FormLabel>
+                            <FormLabel className="text-[10px] font-bold uppercase tracking-wider text-slate-500 mb-1">Asunto</FormLabel>
                             <Input
+                                size="sm"
                                 type='text'
                                 name='title'
                                 value={formData.title}
                                 onChange={handleInputChange} 
-                                className="bg-white border-slate-200 hover:border-slate-300 rounded-xl text-slate-800 focus:border-[#1b365d] focus:ring-1 focus:ring-[#1b365d] transition-all shadow-sm"
+                                className="bg-white border-slate-200 hover:border-slate-300 rounded-lg text-slate-800 focus:border-[#1b365d] focus:ring-1 focus:ring-[#1b365d] transition-all shadow-sm"
                                 focusBorderColor="#1b365d"
                                 placeholder="Ej: Revisión de informe trimestral..."
                             />
                             {!errors.title ? (
-                                <FormHelperText className="text-[11px] text-slate-400">Introduce el asunto (mín. 10 caracteres).</FormHelperText>
+                                <FormHelperText className="text-[10px] text-slate-400 mt-1">Introduce el asunto (mín. 10 caracteres).</FormHelperText>
                             ) : (
-                                <FormErrorMessage>{errors.title}</FormErrorMessage>
+                                <FormErrorMessage className="text-[10px] mt-1">{errors.title}</FormErrorMessage>
                             )}
                         </FormControl>
                     </GridItem>
@@ -219,20 +221,21 @@ const FormComponent = () => {
                     {/* Descripción */}
                     <GridItem colSpan={3}>
                         <FormControl isRequired isInvalid={errors.description}>
-                            <FormLabel className="text-xs font-bold uppercase tracking-wider text-slate-600 mb-2">Descripción</FormLabel>
+                            <FormLabel className="text-[10px] font-bold uppercase tracking-wider text-slate-500 mb-1">Descripción</FormLabel>
                             <Textarea
+                                size="sm"
                                 name='description'
                                 value={formData.description}
                                 onChange={handleInputChange} 
-                                rows={4}
-                                className="bg-white border-slate-200 hover:border-slate-300 rounded-xl text-slate-800 focus:border-[#1b365d] focus:ring-1 focus:ring-[#1b365d] transition-all resize-y shadow-sm"
+                                rows={3}
+                                className="bg-white border-slate-200 hover:border-slate-300 rounded-lg text-slate-800 focus:border-[#1b365d] focus:ring-1 focus:ring-[#1b365d] transition-all resize-y shadow-sm"
                                 focusBorderColor="#1b365d"
                                 placeholder="Describe los detalles de la tarea aquí..."
                             />
                             {!errors.description ? (
-                                <FormHelperText className="text-[11px] text-slate-400">Introduce una descripción detallada.</FormHelperText>
+                                <FormHelperText className="text-[10px] text-slate-400 mt-1">Introduce una descripción detallada.</FormHelperText>
                             ) : (
-                                <FormErrorMessage>{errors.description}</FormErrorMessage>
+                                <FormErrorMessage className="text-[10px] mt-1">{errors.description}</FormErrorMessage>
                             )}
                         </FormControl>
                     </GridItem>
@@ -240,19 +243,20 @@ const FormComponent = () => {
                     {/* Fecha */}
                     <GridItem colSpan={{ base: 3, md: 1 }}>
                         <FormControl isRequired isInvalid={errors.date}>
-                            <FormLabel className="text-xs font-bold uppercase tracking-wider text-slate-600 mb-2">Fecha y Hora</FormLabel>
+                            <FormLabel className="text-[10px] font-bold uppercase tracking-wider text-slate-500 mb-1">Fecha y Hora</FormLabel>
                             <Input
+                                size="sm"
                                 type='datetime-local'
                                 name='date'
                                 value={formData.date}
                                 onChange={handleInputChange} 
-                                className="bg-white border-slate-200 hover:border-slate-300 rounded-xl text-slate-800 focus:border-[#1b365d] focus:ring-1 focus:ring-[#1b365d] transition-all shadow-sm"
+                                className="bg-white border-slate-200 hover:border-slate-300 rounded-lg text-slate-800 focus:border-[#1b365d] focus:ring-1 focus:ring-[#1b365d] transition-all shadow-sm"
                                 focusBorderColor="#1b365d"
                             />
                             {!errors.date ? (
-                                <FormHelperText className="text-[11px] text-slate-400">Fecha de publicación/vencimiento.</FormHelperText>
+                                <FormHelperText className="text-[10px] text-slate-400 mt-1">Fecha de publicación/vencimiento.</FormHelperText>
                             ) : (
-                                <FormErrorMessage>{errors.date}</FormErrorMessage>
+                                <FormErrorMessage className="text-[10px] mt-1">{errors.date}</FormErrorMessage>
                             )}
                         </FormControl>
                     </GridItem>
@@ -260,12 +264,13 @@ const FormComponent = () => {
                     {/* Tags */}
                     <GridItem colSpan={{ base: 3, md: 1 }}>
                         <FormControl isRequired isInvalid={errors.selectedTags}>
-                            <FormLabel className="text-xs font-bold uppercase tracking-wider text-slate-600 mb-2">Etiquetas</FormLabel>
+                            <FormLabel className="text-[10px] font-bold uppercase tracking-wider text-slate-500 mb-1">Etiquetas</FormLabel>
                             <Select
+                                size="sm"
                                 name='selectedTags'
                                 onChange={handleSelectChange}
                                 defaultValue={''}
-                                className="bg-white border-slate-200 hover:border-slate-300 rounded-xl text-slate-800 focus:border-[#1b365d] focus:ring-1 focus:ring-[#1b365d] transition-all shadow-sm"
+                                className="bg-white border-slate-200 hover:border-slate-300 rounded-lg text-slate-800 focus:border-[#1b365d] focus:ring-1 focus:ring-[#1b365d] transition-all shadow-sm"
                                 focusBorderColor="#1b365d"
                             >
                                 <option value='' disabled>Seleccione etiquetas</option>
@@ -274,15 +279,16 @@ const FormComponent = () => {
                                 ))}
                             </Select>
                             {formData.selectedTags.length === 0 && (
-                                <FormErrorMessage>{errors.selectedTags}</FormErrorMessage>
+                                <FormErrorMessage className="text-[10px] mt-1">{errors.selectedTags}</FormErrorMessage>
                             )}
-                            <div className="mt-2 flex flex-wrap gap-2">
+                            <div className="mt-2 flex flex-wrap gap-1.5">
                                 {formData.selectedTags.map(value => (
                                     <Tag
                                         key={value}
+                                        size="sm"
                                         variant='subtle'
                                         colorScheme='blue'
-                                        className="rounded-lg font-semibold"
+                                        className="rounded-md font-semibold"
                                     >
                                         <TagLabel>{value}</TagLabel>
                                         <TagCloseButton onClick={() => handleTagRemove('selectedTags', value)} />
@@ -295,12 +301,13 @@ const FormComponent = () => {
                     {/* Usuarios */}
                     <GridItem colSpan={{ base: 3, md: 1 }}>
                         <FormControl isRequired isInvalid={errors.selectedUsers}>
-                            <FormLabel className="text-xs font-bold uppercase tracking-wider text-slate-600 mb-2">Usuarios Afectados</FormLabel>
+                            <FormLabel className="text-[10px] font-bold uppercase tracking-wider text-slate-500 mb-1">Usuarios Afectados</FormLabel>
                             <Select
+                                size="sm"
                                 name='selectedUsers'
                                 onChange={handleSelectChange}
                                 defaultValue={''}
-                                className="bg-white border-slate-200 hover:border-slate-300 rounded-xl text-slate-800 focus:border-[#1b365d] focus:ring-1 focus:ring-[#1b365d] transition-all shadow-sm"
+                                className="bg-white border-slate-200 hover:border-slate-300 rounded-lg text-slate-800 focus:border-[#1b365d] focus:ring-1 focus:ring-[#1b365d] transition-all shadow-sm"
                                 focusBorderColor="#1b365d"
                             >
                                 <option value='' disabled>Seleccione usuarios</option>
@@ -309,15 +316,16 @@ const FormComponent = () => {
                                 ))}
                             </Select>
                             {formData.selectedUsers.length === 0 && (
-                                <FormErrorMessage>{errors.selectedUsers}</FormErrorMessage>
+                                <FormErrorMessage className="text-[10px] mt-1">{errors.selectedUsers}</FormErrorMessage>
                             )}
-                            <div className="mt-2 flex flex-wrap gap-2">
+                            <div className="mt-2 flex flex-wrap gap-1.5">
                                 {formData.selectedUsers.map(value => (
                                     <Tag
                                         key={value}
+                                        size="sm"
                                         variant='subtle'
                                         colorScheme='indigo'
-                                        className="rounded-lg font-semibold"
+                                        className="rounded-md font-semibold"
                                     >
                                         <TagLabel>{value}</TagLabel>
                                         <TagCloseButton onClick={() => handleTagRemove('selectedUsers', value)} />
@@ -331,20 +339,21 @@ const FormComponent = () => {
                     {formData.selectedType === '3' && (
                         <GridItem colSpan={{ base: 3, md: 1 }}>
                             <FormControl isRequired isInvalid={errors.alcance}>
-                                <FormLabel className="text-xs font-bold uppercase tracking-wider text-slate-600 mb-2">Alcance</FormLabel>
+                                <FormLabel className="text-[10px] font-bold uppercase tracking-wider text-slate-500 mb-1">Alcance</FormLabel>
                                 <Input
+                                    size="sm"
                                     type='text'
                                     name='alcance'
                                     value={formData.alcance}
                                     onChange={handleInputChange} 
-                                    className="bg-white border-slate-200 hover:border-slate-300 rounded-xl text-slate-800 focus:border-[#1b365d] focus:ring-1 focus:ring-[#1b365d] transition-all shadow-sm"
+                                    className="bg-white border-slate-200 hover:border-slate-300 rounded-lg text-slate-800 focus:border-[#1b365d] focus:ring-1 focus:ring-[#1b365d] transition-all shadow-sm"
                                     focusBorderColor="#1b365d"
                                     placeholder="Defina el alcance..."
                                 />
                                 {!errors.alcance ? (
-                                    <FormHelperText className="text-[11px] text-slate-400">Introduce el alcance de la tarea.</FormHelperText>
+                                    <FormHelperText className="text-[10px] text-slate-400 mt-1">Introduce el alcance de la tarea.</FormHelperText>
                                 ) : (
-                                    <FormErrorMessage>{errors.alcance}</FormErrorMessage>
+                                    <FormErrorMessage className="text-[10px] mt-1">{errors.alcance}</FormErrorMessage>
                                 )}
                             </FormControl>
                         </GridItem>
@@ -353,35 +362,35 @@ const FormComponent = () => {
                     {/* Privacidad */}
                     <GridItem colSpan={formData.selectedType === '3' ? { base: 3, md: 2 } : 3}>
                         <FormControl isRequired isInvalid={errors.selectedPriv}>
-                            <FormLabel className="text-xs font-bold uppercase tracking-wider text-slate-600 mb-3">Privacidad</FormLabel>
+                            <FormLabel className="text-[10px] font-bold uppercase tracking-wider text-slate-500 mb-2">Privacidad</FormLabel>
                             <RadioGroup
                                 onChange={(value) => setFormData({ ...formData, privado: Number(value) })}
                                 value={formData.privado}
                             >
-                                <Stack direction="row" spacing={8}>
-                                    <Radio value={0} colorScheme="blue" className="border-slate-300">
-                                        <span className="text-sm font-semibold text-slate-700">Pública (Global)</span>
+                                <Stack direction="row" spacing={6}>
+                                    <Radio value={0} size="sm" colorScheme="blue" className="border-slate-300">
+                                        <span className="text-xs font-semibold text-slate-700">Pública (Global)</span>
                                     </Radio>
-                                    <Radio value={1} colorScheme="blue" className="border-slate-300">
-                                        <span className="text-sm font-semibold text-slate-700">Privada</span>
+                                    <Radio value={1} size="sm" colorScheme="blue" className="border-slate-300">
+                                        <span className="text-xs font-semibold text-slate-700">Privada</span>
                                     </Radio>
                                 </Stack>
                             </RadioGroup>
                             {errors.selectedPriv && (
-                                <FormErrorMessage>{errors.selectedPriv}</FormErrorMessage>
+                                <FormErrorMessage className="text-[10px] mt-1">{errors.selectedPriv}</FormErrorMessage>
                             )}
                         </FormControl>
                     </GridItem>
                 </Grid>
 
-                <div className="mt-8 pt-6 border-t border-slate-200 flex justify-end">
+                <div className="mt-5 pt-4 border-t border-slate-200 flex justify-end">
                     <button
                         type="button"
                         onClick={handleSubmit}
-                        className="group relative overflow-hidden bg-[#1b365d] hover:bg-[#0f294a] active:bg-[#0a1c33] text-white py-3 px-8 rounded-xl text-sm font-bold tracking-wide shadow-lg shadow-indigo-950/20 flex items-center justify-center gap-3 transition-all hover:-translate-y-0.5"
+                        className="group relative overflow-hidden bg-[#1b365d] hover:bg-[#0f294a] active:bg-[#0a1c33] text-white py-2 px-6 rounded-lg text-xs font-bold tracking-wide shadow-md shadow-indigo-950/20 flex items-center justify-center gap-2 transition-all hover:-translate-y-0.5"
                     >
                         <span className="relative z-10">Crear Nueva Tarea</span>
-                        <svg className="w-4 h-4 relative z-10 transition-transform duration-300 group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
+                        <svg className="w-3.5 h-3.5 relative z-10 transition-transform duration-300 group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
                         </svg>
                         <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out"></div>
