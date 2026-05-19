@@ -79,9 +79,12 @@ const Header = () => {
                                 <Button 
                                     variant="ghost" 
                                     size="sm"
-                                    className="h-8 px-4 text-sm font-bold text-slate-700 hover:text-[#1b365d] hover:bg-white hover:shadow-xs rounded-full font-sans tracking-tight transition-all"
+                                    className="h-8 px-4 text-sm font-bold text-slate-700 hover:text-[#1b365d] hover:bg-white hover:shadow-xs rounded-full font-sans tracking-tight transition-all flex items-center gap-1.5"
                                 >
-                                    {formatMonthYear(currentDate)}
+                                    <span>{formatMonthYear(currentDate)}</span>
+                                    <svg className="w-3 h-3 text-slate-400 group-hover:text-[#1b365d] transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
+                                        <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                                    </svg>
                                 </Button>
                             </PopoverTrigger>
                             
