@@ -23,7 +23,7 @@ import dayjs from 'dayjs';
 import { useTask } from '../../provider/taskProvider';
 import { useNavigate } from 'react-router-dom';
 
-const CustomSelect = ({ label, placeholder, options, value, onChange, isInvalid, errorMsg, helperText, renderOptionLabel, isMulti }) => {
+const CustomSelect = ({ label, placeholder, options, value, onChange, isInvalid, errorMsg, helperText, isMulti }) => {
     const [isOpen, setIsOpen] = useState(false);
     const [searchTerm, setSearchTerm] = useState('');
     const containerRef = useRef(null);
@@ -42,8 +42,17 @@ const CustomSelect = ({ label, placeholder, options, value, onChange, isInvalid,
         typeof opt === 'object' ? opt.value === value : opt === value
     );
 
-    // Filter options in real-time based on keyboard input
-    const filteredOptions = options.filter(opt => {
+    // Alphabetical sort by label/string
+    const getSortedOptions = () => {
+        return [...options].sort((a, b) => {
+            const labelA = (typeof a === 'object' ? a.label : a).toLowerCase();
+            const labelB = (typeof b === 'object' ? b.label : b).toLowerCase();
+            return labelA.localeCompare(labelB);
+        });
+    };
+
+    // Filter based on search term
+    const filteredOptions = getSortedOptions().filter(opt => {
         const labelStr = (typeof opt === 'object' ? opt.label : opt).toLowerCase();
         return labelStr.includes(searchTerm.toLowerCase());
     });
@@ -86,7 +95,7 @@ const CustomSelect = ({ label, placeholder, options, value, onChange, isInvalid,
                     placeholder={!isMulti && selectedOption ? (typeof selectedOption === 'object' ? selectedOption.label : selectedOption) : placeholder}
                     className={`w-full flex items-center justify-between pl-3 pr-8 py-1.5 bg-white border ${
                         isInvalid ? 'border-red-500 focus:ring-red-500' : 'border-slate-200 focus:border-[#1b365d] focus:ring-[#1b365d]'
-                    } hover:border-slate-300 rounded-2xl text-xs text-slate-700 font-semibold transition-all shadow-sm focus:outline-none focus:ring-1 h-[32px] placeholder-slate-400`}
+                    } hover:border-slate-300 rounded-2xl text-xs text-slate-800 transition-all shadow-sm focus:outline-none focus:ring-1 h-[32px] font-semibold placeholder-slate-400`}
                 />
                 <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">
                     <svg
@@ -111,12 +120,12 @@ const CustomSelect = ({ label, placeholder, options, value, onChange, isInvalid,
                             background: transparent;
                         }
                         .scrollbar-custom::-webkit-scrollbar-thumb {
-                            background-color: #94a3b8; /* slate-400: High Contrast */
-                            border: 2px solid white; /* Elegant floating pill gutter */
+                            background-color: #94a3b8;
+                            border: 2px solid white;
                             border-radius: 9999px;
                         }
                         .scrollbar-custom::-webkit-scrollbar-thumb:hover {
-                            background-color: #475569; /* slate-600 */
+                            background-color: #475569;
                         }
                     `}</style>
                     {filteredOptions.length > 0 ? (
