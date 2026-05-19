@@ -52,14 +52,7 @@ export default function Login() {
   const fetchData = async () => {
     try {
       const res = await checkLoginService();
-      if (res.Errorid !== "0") {
-        toast({
-          title: "Sin sesión previa",
-          description: `Error: ${res.Errornombre}`,
-          status: "error",
-          isClosable: true,
-        });
-      } else {
+      if (res.Errorid === "0") {
         toast({
           title: "Ya inicio sesión anteriormente",
           description: `Bienvenid@ ${localStorage.getItem("user")}`,
