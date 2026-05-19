@@ -17,11 +17,114 @@ import {
     Stack,
     Radio
 } from '@chakra-ui/react';
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { createTaskService } from '../../service/tarea';
 import dayjs from 'dayjs';
 import { useTask } from '../../provider/taskProvider';
 import { useNavigate } from 'react-router-dom';
+
+const CustomSelect = ({ label, placeholder, options, value, onChange, isInvalid, errorMsg, helperText, renderOptionLabel }) => {
+    const [isOpen, setIsOpen] = useState(false);
+    const containerRef = useRef(null);
+
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (containerRef.current && !containerRef.current.contains(event.target)) {
+                setIsOpen(false);
+            }
+        };
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => document.removeEventListener('mousedown', handleClickOutside);
+    }, []);
+
+    const selectedOption = options.find(opt => 
+        typeof opt === 'object' ? opt.value === value : opt === value
+    );
+
+    const getDisplayLabel = () => {
+        if (!value) return placeholder;
+        if (selectedOption) {
+            return renderOptionLabel ? renderOptionLabel(selectedOption) : (typeof selectedOption === 'object' ? selectedOption.label : selectedOption);
+        }
+        return value;
+    };
+
+    return (
+        <FormControl isInvalid={isInvalid} ref={containerRef} className="relative">
+            <FormLabel className="text-[10px] font-bold uppercase tracking-wider text-slate-500 mb-1">{label}</FormLabel>
+            
+            <button
+                type="button"
+                onClick={() => setIsOpen(!isOpen)}
+                className={`w-full flex items-center justify-between px-3 py-1.5 bg-white border ${
+                    isInvalid ? 'border-red-500 focus:ring-red-500' : 'border-slate-200 focus:border-[#1b365d] focus:ring-[#1b365d]'
+                } hover:border-slate-300 rounded-2xl text-xs text-slate-800 transition-all shadow-sm focus:outline-none focus:ring-1 text-left h-[32px]`}
+            >
+                <span className={!value ? "text-slate-400 font-medium" : "text-slate-700 font-semibold"}>
+                    {getDisplayLabel()}
+                </span>
+                <svg
+                    className={`w-3.5 h-3.5 text-slate-400 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    strokeWidth="2.5"
+                >
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                </svg>
+            </button>
+
+            {isOpen && (
+                <div className="absolute left-0 z-50 w-full mt-1.5 bg-white border border-slate-100 shadow-xl rounded-2xl max-h-[160px] overflow-y-auto py-1 scrollbar-custom">
+                    <style>{`
+                        .scrollbar-custom::-webkit-scrollbar {
+                            width: 6px;
+                        }
+                        .scrollbar-custom::-webkit-scrollbar-track {
+                            background: transparent;
+                        }
+                        .scrollbar-custom::-webkit-scrollbar-thumb {
+                            background: #cbd5e1; /* slate-300 */
+                            border-radius: 9999px;
+                        }
+                        .scrollbar-custom::-webkit-scrollbar-thumb:hover {
+                            background: #94a3b8; /* slate-400 */
+                        }
+                    `}</style>
+                    {options.map((opt, index) => {
+                        const optValue = typeof opt === 'object' ? opt.value : opt;
+                        const optLabel = renderOptionLabel ? renderOptionLabel(opt) : (typeof opt === 'object' ? opt.label : opt);
+                        const isSelected = optValue === value;
+
+                        return (
+                            <button
+                                key={index}
+                                type="button"
+                                onClick={() => {
+                                    onChange(optValue);
+                                    setIsOpen(false);
+                                }}
+                                className={`w-full text-left px-4 py-1.5 text-xs transition-colors ${
+                                    isSelected 
+                                        ? 'bg-slate-100 font-bold text-slate-900' 
+                                        : 'text-slate-700 hover:bg-slate-50 font-medium'
+                                }`}
+                            >
+                                {optLabel}
+                            </button>
+                        );
+                    })}
+                </div>
+            )}
+
+            {!isInvalid ? (
+                helperText && <FormHelperText className="text-[10px] text-slate-400 mt-1">{helperText}</FormHelperText>
+            ) : (
+                errorMsg && <FormErrorMessage className="text-[10px] mt-1">{errorMsg}</FormErrorMessage>
+            )}
+        </FormControl>
+    );
+};
 
 const FormComponent = () => {
     const navigate = useNavigate()
@@ -52,6 +155,23 @@ const FormComponent = () => {
         const { name, value } = e.target;
         setFormData(prevFormData => {
             const selectedItems = [...prevFormData[name], value].filter((v, i, a) => a.indexOf(v) === i); // Remove duplicates
+            return {
+                ...prevFormData,
+                [name]: selectedItems
+            };
+        });
+    };
+
+    const handleCustomSelectChange = (name, value) => {
+        setFormData(prev => ({
+            ...prev,
+            [name]: value
+        }));
+    };
+
+    const handleCustomMultiSelectChange = (name, value) => {
+        setFormData(prevFormData => {
+            const selectedItems = [...prevFormData[name], value].filter((v, i, a) => a.indexOf(v) === i);
             return {
                 ...prevFormData,
                 [name]: selectedItems
@@ -173,28 +293,16 @@ const FormComponent = () => {
                 <Grid templateColumns="repeat(3, 1fr)" gap={5}>
                     {/* Fila 1: Tipo, Asunto, Fecha y Hora (Elementos de igual altura) */}
                     <GridItem colSpan={{ base: 3, md: 1 }}>
-                        <FormControl isRequired isInvalid={errors.selectedType}>
-                            <FormLabel className="text-[10px] font-bold uppercase tracking-wider text-slate-500 mb-1">Tipo</FormLabel>
-                            <Select
-                                size="sm"
-                                name='selectedType'
-                                onChange={handleInputChange}
-                                defaultValue={''}
-                                borderRadius="2xl"
-                                className="bg-white border-slate-200 hover:border-slate-300 text-slate-800 focus:border-[#1b365d] focus:ring-1 focus:ring-[#1b365d] transition-all shadow-sm"
-                                focusBorderColor="#1b365d"
-                            >
-                                <option value='' disabled>Seleccione el tipo</option>
-                                {filterOptions.types.map(type => (
-                                    <option key={type.codigo} value={type.codigo}>{type.codigod}</option>
-                                ))}
-                            </Select>
-                            {!errors.selectedType ? (
-                                <FormHelperText className="text-[10px] text-slate-400 mt-1">Seleccione el tipo de tarea.</FormHelperText>
-                            ) : (
-                                <FormErrorMessage className="text-[10px] mt-1">{errors.selectedType}</FormErrorMessage>
-                            )}
-                        </FormControl>
+                        <CustomSelect
+                            label="Tipo"
+                            placeholder="Seleccione el tipo"
+                            options={filterOptions.types.map(type => ({ value: type.codigo, label: type.codigod }))}
+                            value={formData.selectedType}
+                            onChange={(val) => handleCustomSelectChange('selectedType', val)}
+                            isInvalid={errors.selectedType}
+                            errorMsg={errors.selectedType}
+                            helperText="Seleccione el tipo de tarea."
+                        />
                     </GridItem>
 
                     <GridItem colSpan={{ base: 3, md: 1 }}>
@@ -242,79 +350,57 @@ const FormComponent = () => {
 
                     {/* Fila 2: Etiquetas, Usuarios Afectados, y Privacidad (o Alcance si Tipo es 3) */}
                     <GridItem colSpan={{ base: 3, md: 1 }}>
-                        <FormControl isRequired isInvalid={errors.selectedTags}>
-                            <FormLabel className="text-[10px] font-bold uppercase tracking-wider text-slate-500 mb-1">Etiquetas</FormLabel>
-                            <Select
-                                size="sm"
-                                name='selectedTags'
-                                onChange={handleSelectChange}
-                                defaultValue={''}
-                                borderRadius="2xl"
-                                className="bg-white border-slate-200 hover:border-slate-300 text-slate-800 focus:border-[#1b365d] focus:ring-1 focus:ring-[#1b365d] transition-all shadow-sm"
-                                focusBorderColor="#1b365d"
-                            >
-                                <option value='' disabled>Seleccione etiquetas</option>
-                                {filterOptions.tags.map(tag => (
-                                    <option key={tag} value={tag}>{tag}</option>
-                                ))}
-                            </Select>
-                            {formData.selectedTags.length === 0 && (
-                                <FormErrorMessage className="text-[10px] mt-1">{errors.selectedTags}</FormErrorMessage>
-                            )}
-                            <div className="mt-2 flex flex-wrap gap-1.5 max-h-[70px] overflow-y-auto">
-                                {formData.selectedTags.map(value => (
-                                    <Tag
-                                        key={value}
-                                        size="sm"
-                                        variant='subtle'
-                                        colorScheme='blue'
-                                        borderRadius="lg"
-                                        className="font-semibold"
-                                    >
-                                        <TagLabel>{value}</TagLabel>
-                                        <TagCloseButton onClick={() => handleTagRemove('selectedTags', value)} />
-                                    </Tag>
-                                ))}
-                            </div>
-                        </FormControl>
+                        <CustomSelect
+                            label="Etiquetas"
+                            placeholder="Seleccione etiquetas"
+                            options={filterOptions.tags}
+                            value=""
+                            onChange={(val) => handleCustomMultiSelectChange('selectedTags', val)}
+                            isInvalid={formData.selectedTags.length === 0 && errors.selectedTags}
+                            errorMsg={errors.selectedTags}
+                        />
+                        <div className="mt-2 flex flex-wrap gap-1.5 max-h-[70px] overflow-y-auto">
+                            {formData.selectedTags.map(value => (
+                                <Tag
+                                    key={value}
+                                    size="sm"
+                                    variant='subtle'
+                                    colorScheme='blue'
+                                    borderRadius="lg"
+                                    className="font-semibold"
+                                >
+                                    <TagLabel>{value}</TagLabel>
+                                    <TagCloseButton onClick={() => handleTagRemove('selectedTags', value)} />
+                                </Tag>
+                            ))}
+                        </div>
                     </GridItem>
 
                     <GridItem colSpan={{ base: 3, md: 1 }}>
-                        <FormControl isRequired isInvalid={errors.selectedUsers}>
-                            <FormLabel className="text-[10px] font-bold uppercase tracking-wider text-slate-500 mb-1">Usuarios Afectados</FormLabel>
-                            <Select
-                                size="sm"
-                                name='selectedUsers'
-                                onChange={handleSelectChange}
-                                defaultValue={''}
-                                borderRadius="2xl"
-                                className="bg-white border-slate-200 hover:border-slate-300 text-slate-800 focus:border-[#1b365d] focus:ring-1 focus:ring-[#1b365d] transition-all shadow-sm"
-                                focusBorderColor="#1b365d"
-                            >
-                                <option value='' disabled>Seleccione usuarios</option>
-                                {filterOptions.users.map(user => (
-                                    <option key={user.codigo} value={user.codigo}>{user.denominacion}</option>
-                                ))}
-                            </Select>
-                            {formData.selectedUsers.length === 0 && (
-                                <FormErrorMessage className="text-[10px] mt-1">{errors.selectedUsers}</FormErrorMessage>
-                            )}
-                            <div className="mt-2 flex flex-wrap gap-1.5 max-h-[70px] overflow-y-auto">
-                                {formData.selectedUsers.map(value => (
-                                    <Tag
-                                        key={value}
-                                        size="sm"
-                                        variant='subtle'
-                                        colorScheme='indigo'
-                                        borderRadius="lg"
-                                        className="font-semibold"
-                                    >
-                                        <TagLabel>{value}</TagLabel>
-                                        <TagCloseButton onClick={() => handleTagRemove('selectedUsers', value)} />
-                                    </Tag>
-                                ))}
-                            </div>
-                        </FormControl>
+                        <CustomSelect
+                            label="Usuarios Afectados"
+                            placeholder="Seleccione usuarios"
+                            options={filterOptions.users.map(user => ({ value: user.codigo, label: user.denominacion }))}
+                            value=""
+                            onChange={(val) => handleCustomMultiSelectChange('selectedUsers', val)}
+                            isInvalid={formData.selectedUsers.length === 0 && errors.selectedUsers}
+                            errorMsg={errors.selectedUsers}
+                        />
+                        <div className="mt-2 flex flex-wrap gap-1.5 max-h-[70px] overflow-y-auto">
+                            {formData.selectedUsers.map(value => (
+                                <Tag
+                                    key={value}
+                                    size="sm"
+                                    variant='subtle'
+                                    colorScheme='indigo'
+                                    borderRadius="lg"
+                                    className="font-semibold"
+                                >
+                                    <TagLabel>{value}</TagLabel>
+                                    <TagCloseButton onClick={() => handleTagRemove('selectedUsers', value)} />
+                                </Tag>
+                            ))}
+                        </div>
                     </GridItem>
 
                     {/* Columna condicional en Fila 2: Alcance si Tipo 3, de lo contrario Privacidad */}
