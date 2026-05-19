@@ -467,9 +467,7 @@ const FormComponent = () => {
                                 focusBorderColor="#1b365d"
                                 placeholder="Describe los detalles de la tarea aquí..."
                             />
-                            {!errors.description ? (
-                                <FormHelperText className="text-[10px] text-slate-400 mt-1">Detalles de la tarea.</FormHelperText>
-                            ) : (
+                            {errors.description && (
                                 <FormErrorMessage className="text-[10px] mt-1">{errors.description}</FormErrorMessage>
                             )}
                         </FormControl>
