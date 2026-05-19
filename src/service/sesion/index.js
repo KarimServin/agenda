@@ -32,6 +32,13 @@ export const loginRequest = async (user, password) => {
     const parser = new DOMParser();
     const xmlDoc = parser.parseFromString(response.data, 'text/xml');
 
+    // Detectar si el XML en sí falló al parsear (ej: respuesta HTML en lugar de XML)
+    const parseError = xmlDoc.querySelector('parsererror');
+    if (parseError) {
+      console.error('Respuesta no válida del servidor (no es XML):', response.data?.substring?.(0, 300));
+      throw new Error('El servidor no devolvió una respuesta válida. Intente nuevamente.');
+    }
+
     const getNodeText = (tag) => {
       const nodes = xmlDoc.getElementsByTagName(tag);
       return nodes.length > 0 ? nodes[0].textContent : "";
@@ -163,6 +170,12 @@ export const checkLoginService = async () => {
 
     const parser = new DOMParser();
     const xmlDoc = parser.parseFromString(response.data, 'text/xml');
+
+    const parseError = xmlDoc.querySelector('parsererror');
+    if (parseError) {
+      console.error('Respuesta no válida del servidor (checkLogin):', response.data?.substring?.(0, 300));
+      throw new Error('Sesión inválida. Por favor inicie sesión nuevamente.');
+    }
 
     const erroridNode = xmlDoc.getElementsByTagName('Errorid')[0];
     const errorid = erroridNode ? erroridNode.textContent : "";
