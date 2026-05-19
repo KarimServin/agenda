@@ -5,39 +5,48 @@ import { version } from "../../utils";
 
 export default function LayoutLogin(props) {
     return (
-        <div>
-            <div className="bg-white pt-4 h-screen flex flex-col">
-                <span className="absolute ml-2">{version}</span>
-                <section>
-                    <header className="flex justify-evenly items-center flex-wrap">
-                        <div>
-                            <img
-                                src="https://cpcesfe1.org.ar/wp-content/uploads/2023/03/logo_mails.png"
-                                alt="logo-consejo"
-                                width={272}
-                                height={90}
-                            />
-                        </div>
-                        <div className="flex justify-between">
-                            <img src={DSSImage} alt="logo-DSS" width={135} height={90} />
-                            <img src={CssImage} alt="logo-CSS" width={182} height={90} />
-                            <img src={LogoImage} alt="logo-COL" width={90} height={90} />
-                        </div>
-                    </header>
-                </section>
-                <div className="h-full w-full flex justify-center my-2">
+        <div className="gradient-bg min-h-screen flex flex-col justify-between font-sans">
+            {/* Version indicator */}
+            <span className="absolute top-3 left-4 text-xs font-semibold text-slate-400 bg-slate-100 px-2.5 py-1 rounded-full shadow-sm tracking-wider">
+                v{version}
+            </span>
+
+            {/* Header section with logos */}
+            <header className="w-full max-w-7xl mx-auto px-6 pt-8 pb-4">
+                <div className="bg-white/85 backdrop-blur-md border border-white/60 shadow-md rounded-2xl p-6 flex flex-col md:flex-row justify-between items-center gap-6">
+                    <div className="transition-transform duration-300 hover:scale-[1.02]">
+                        <img
+                            src="https://cpcesfe1.org.ar/wp-content/uploads/2023/03/logo_mails.png"
+                            alt="logo-consejo"
+                            className="h-16 md:h-20 object-contain w-auto"
+                        />
+                    </div>
+                    <div className="flex flex-wrap justify-center items-center gap-6 md:gap-8 border-t md:border-t-0 md:border-l border-slate-200/80 pt-4 md:pt-0 md:pl-8">
+                        <img src={DSSImage} alt="logo-DSS" className="h-12 md:h-14 object-contain w-auto transition-all duration-300 hover:opacity-80" />
+                        <img src={CssImage} alt="logo-CSS" className="h-12 md:h-14 object-contain w-auto transition-all duration-300 hover:opacity-80" />
+                        <img src={LogoImage} alt="logo-COL" className="h-12 md:h-14 object-contain w-auto transition-all duration-300 hover:opacity-80 rounded-lg shadow-sm" />
+                    </div>
+                </div>
+            </header>
+
+            {/* Main content container */}
+            <main className="flex-grow flex items-center justify-center px-4 py-8">
+                <div className="w-full max-w-md">
                     {props.children}
                 </div>
-                <section className="bg-black text-white mt-auto">
-                    <footer className="text-white flex justify-center">
-                        <div className="flex justify-center items-center py-2">
-                            <div>
-                                <h3 className="text-sm">Consejo de Ciencias Económicas de Santa Fe - Cámara I</h3>
-                            </div>
-                        </div>
-                    </footer>
-                </section>
-            </div>
+            </main>
+
+            {/* Footer with clean styling */}
+            <footer className="bg-slate-900 text-slate-300 border-t border-slate-800 py-4 mt-auto">
+                <div className="max-w-7xl mx-auto px-6 flex flex-col sm:flex-row justify-between items-center gap-2">
+                    <p className="text-xs sm:text-sm font-medium tracking-wide">
+                        Consejo de Ciencias Económicas de Santa Fe — Cámara I
+                    </p>
+                    <p className="text-[10px] sm:text-xs text-slate-500">
+                        &copy; {new Date().getFullYear()} Todos los derechos reservados.
+                    </p>
+                </div>
+            </footer>
         </div>
     );
 }

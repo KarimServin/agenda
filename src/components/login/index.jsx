@@ -72,75 +72,86 @@ export default function Login() {
 
   return (
     <LayoutLogin>
-      <main className="my-20 w-full">
-        <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-          <h2 className="text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
-            Ingrese sus datos
+      <div className="glass-card w-full rounded-3xl p-8 sm:p-10 transition-all duration-500 hover:shadow-2xl">
+        <div className="text-center mb-8">
+          <h2 className="text-3xl font-extrabold tracking-tight text-slate-800">
+            Iniciar Sesión
           </h2>
+          <p className="mt-2.5 text-sm text-slate-500 font-medium">
+            Agenda de Comunicación Institucional
+          </p>
         </div>
-        <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-          <form className="space-y-6" onKeyDown={handleKeyDown}>
-            <div>
-              <label
-                htmlFor="text"
-                className="block text-sm font-medium leading-6 text-gray-900"
-              >
-                Usuario
-              </label>
-              <InputGroup size='md'>
-                <Input
-                  type="text"
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
-                  placeholder="Usuario"
-                  required
-                />
-              </InputGroup>
-            </div>
-            <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-              <label
-                htmlFor="text"
-                className="block text-sm font-medium leading-6 text-gray-900"
-              >
-                Contraseña
-              </label>
-              <InputGroup size='md'>
-                <Input
-                  pr='4.5rem'
-                  type={show ? 'text' : 'password'}
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  placeholder="Contraseña"
-                  required
-                />
-                <InputRightElement width='4.5rem'>
-                  <Button h='1.75rem' size='sm' onClick={handleClick}>
-                    {show ? 'Esconder' : 'Ver'}
-                  </Button>
-                </InputRightElement>
-              </InputGroup>
 
-              <div>
-                {/* <button
-                  onClick={() => navigate("/reset")}
-                  className="w-full pt-4 text-sm font-semibold"
+        <form className="space-y-6" onKeyDown={handleKeyDown}>
+          <div>
+            <label
+              htmlFor="username"
+              className="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-2"
+            >
+              Usuario
+            </label>
+            <InputGroup size="lg">
+              <Input
+                id="username"
+                type="text"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                placeholder="Ingrese su usuario"
+                className="premium-input bg-white/70 border-slate-200 hover:border-slate-300 focus:border-[#336699] rounded-xl text-slate-800 placeholder-slate-400"
+                required
+                focusBorderColor="#336699"
+              />
+            </InputGroup>
+          </div>
+
+          <div>
+            <label
+              htmlFor="password"
+              className="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-2"
+            >
+              Contraseña
+            </label>
+            <InputGroup size="lg">
+              <Input
+                id="password"
+                pr="4.5rem"
+                type={show ? "text" : "password"}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="Ingrese su contraseña"
+                className="premium-input bg-white/70 border-slate-200 hover:border-slate-300 focus:border-[#336699] rounded-xl text-slate-800 placeholder-slate-400"
+                required
+                focusBorderColor="#336699"
+              />
+              <InputRightElement width="4.5rem" h="full" className="flex items-center justify-center">
+                <Button
+                  h="2rem"
+                  size="sm"
+                  onClick={handleClick}
+                  variant="ghost"
+                  colorScheme="blue"
+                  className="rounded-lg text-xs font-semibold hover:bg-slate-100"
                 >
-                  ¿olvidó su contraseña?
-                </button> */}
-              </div>
-            </div>
-            <div>
-              <button
-                type="button"
-                onClick={handleLoginClick}
-                className="flex w-full justify-center rounded-md bg-[#336699] px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-[#336699]/70"
-              >
-                Iniciar sesión
-              </button>
-            </div>
-          </form>
-        </div>
-      </main>
+                  {show ? "Ocultar" : "Mostrar"}
+                </Button>
+              </InputRightElement>
+            </InputGroup>
+          </div>
+
+          <div className="pt-2">
+            <button
+              type="button"
+              onClick={handleLoginClick}
+              className="premium-btn w-full bg-[#336699] hover:bg-[#2c5885] active:bg-[#254b70] text-white py-3.5 px-4 rounded-xl text-sm font-bold tracking-wide shadow-lg shadow-blue-900/10 flex items-center justify-center gap-2"
+            >
+              <span>Ingresar al Sistema</span>
+              <svg className="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+              </svg>
+            </button>
+          </div>
+        </form>
+      </div>
     </LayoutLogin>
   );
 }
