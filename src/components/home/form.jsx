@@ -23,9 +23,8 @@ import dayjs from 'dayjs';
 import { useTask } from '../../provider/taskProvider';
 import { useNavigate } from 'react-router-dom';
 
-const CustomSelect = ({ label, placeholder, options, value, onChange, isInvalid, errorMsg, helperText, isMulti }) => {
+const CustomSelect = ({ label, placeholder, options, value, onChange, isInvalid, errorMsg, helperText, renderOptionLabel }) => {
     const [isOpen, setIsOpen] = useState(false);
-    const [searchTerm, setSearchTerm] = useState('');
     const containerRef = useRef(null);
 
     useEffect(() => {
@@ -51,64 +50,38 @@ const CustomSelect = ({ label, placeholder, options, value, onChange, isInvalid,
         });
     };
 
-    // Filter based on search term
-    const filteredOptions = getSortedOptions().filter(opt => {
-        const labelStr = (typeof opt === 'object' ? opt.label : opt).toLowerCase();
-        return labelStr.includes(searchTerm.toLowerCase());
-    });
-
-    const getInputValue = () => {
-        if (isOpen) {
-            return searchTerm;
-        }
-        if (isMulti) {
-            return '';
-        }
+    const getDisplayLabel = () => {
+        if (!value) return placeholder;
         if (selectedOption) {
-            return typeof selectedOption === 'object' ? selectedOption.label : selectedOption;
+            return renderOptionLabel ? renderOptionLabel(selectedOption) : (typeof selectedOption === 'object' ? selectedOption.label : selectedOption);
         }
-        return '';
-    };
-
-    const handleFocus = () => {
-        setIsOpen(true);
-        if (!isMulti && selectedOption) {
-            setSearchTerm(typeof selectedOption === 'object' ? selectedOption.label : selectedOption);
-        } else {
-            setSearchTerm('');
-        }
+        return value;
     };
 
     return (
         <FormControl isInvalid={isInvalid} ref={containerRef} className="relative">
             <FormLabel className="text-[10px] font-bold uppercase tracking-wider text-slate-500 mb-1">{label}</FormLabel>
             
-            <div className="relative w-full">
-                <input
-                    type="text"
-                    value={getInputValue()}
-                    onChange={(e) => {
-                        setSearchTerm(e.target.value);
-                        setIsOpen(true);
-                    }}
-                    onFocus={handleFocus}
-                    placeholder={!isMulti && selectedOption ? (typeof selectedOption === 'object' ? selectedOption.label : selectedOption) : placeholder}
-                    className={`w-full flex items-center justify-between pl-3 pr-8 py-1.5 bg-white border ${
-                        isInvalid ? 'border-red-500 focus:ring-red-500' : 'border-slate-200 focus:border-[#1b365d] focus:ring-[#1b365d]'
-                    } hover:border-slate-300 rounded-2xl text-xs text-slate-800 transition-all shadow-sm focus:outline-none focus:ring-1 h-[32px] font-semibold placeholder-slate-400`}
-                />
-                <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">
-                    <svg
-                        className={`w-3.5 h-3.5 text-slate-400 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                        strokeWidth="2.5"
-                    >
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
-                    </svg>
-                </div>
-            </div>
+            <button
+                type="button"
+                onClick={() => setIsOpen(!isOpen)}
+                className={`w-full flex items-center justify-between px-3 py-1.5 bg-white border ${
+                    isInvalid ? 'border-red-500 focus:ring-red-500' : 'border-slate-200 focus:border-[#1b365d] focus:ring-[#1b365d]'
+                } hover:border-slate-300 rounded-2xl text-xs text-slate-800 transition-all shadow-sm focus:outline-none focus:ring-1 text-left h-[32px]`}
+            >
+                <span className={!value ? "text-slate-400 font-medium" : "text-slate-700 font-semibold"}>
+                    {getDisplayLabel()}
+                </span>
+                <svg
+                    className={`w-3.5 h-3.5 text-slate-400 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    strokeWidth="2.5"
+                >
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                </svg>
+            </button>
 
             {isOpen && (
                 <div className="absolute left-0 z-50 w-full mt-1.5 bg-white border border-slate-100 shadow-xl rounded-2xl max-h-[160px] overflow-y-auto p-1.5 pr-1 scrollbar-custom">
@@ -128,36 +101,29 @@ const CustomSelect = ({ label, placeholder, options, value, onChange, isInvalid,
                             background-color: #475569;
                         }
                     `}</style>
-                    {filteredOptions.length > 0 ? (
-                        filteredOptions.map((opt, index) => {
-                            const optValue = typeof opt === 'object' ? opt.value : opt;
-                            const optLabel = typeof opt === 'object' ? opt.label : opt;
-                            const isSelected = optValue === value;
+                    {getSortedOptions().map((opt, index) => {
+                        const optValue = typeof opt === 'object' ? opt.value : opt;
+                        const optLabel = renderOptionLabel ? renderOptionLabel(opt) : (typeof opt === 'object' ? opt.label : opt);
+                        const isSelected = optValue === value;
 
-                            return (
-                                <button
-                                    key={index}
-                                    type="button"
-                                    onClick={() => {
-                                        onChange(optValue);
-                                        setSearchTerm('');
-                                        setIsOpen(false);
-                                    }}
-                                    className={`w-full text-left px-3 py-1.5 text-xs rounded-xl transition-colors ${
-                                        isSelected 
-                                            ? 'bg-slate-100 font-bold text-slate-900' 
-                                            : 'text-slate-700 hover:bg-slate-50 font-medium'
-                                    }`}
-                                >
-                                    {optLabel}
-                                </button>
-                            );
-                        })
-                    ) : (
-                        <div className="text-[10px] text-slate-400 py-2 px-3 font-semibold text-center uppercase tracking-wider">
-                            Sin resultados
-                        </div>
-                    )}
+                        return (
+                            <button
+                                key={index}
+                                type="button"
+                                onClick={() => {
+                                    onChange(optValue);
+                                    setIsOpen(false);
+                                }}
+                                className={`w-full text-left px-3 py-1.5 text-xs rounded-xl transition-colors ${
+                                    isSelected 
+                                        ? 'bg-slate-100 font-bold text-slate-900' 
+                                        : 'text-slate-700 hover:bg-slate-50 font-medium'
+                                }`}
+                            >
+                                {optLabel}
+                            </button>
+                        );
+                    })}
                 </div>
             )}
 
