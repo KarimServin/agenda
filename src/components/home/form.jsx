@@ -75,20 +75,21 @@ const CustomSelect = ({ label, placeholder, options, value, onChange, isInvalid,
             </button>
 
             {isOpen && (
-                <div className="absolute left-0 z-50 w-full mt-1.5 bg-white border border-slate-100 shadow-xl rounded-2xl max-h-[160px] overflow-y-auto py-1 scrollbar-custom">
+                <div className="absolute left-0 z-50 w-full mt-1.5 bg-white border border-slate-100 shadow-xl rounded-2xl max-h-[160px] overflow-y-auto p-1.5 pr-1 scrollbar-custom">
                     <style>{`
                         .scrollbar-custom::-webkit-scrollbar {
-                            width: 6px;
+                            width: 8px;
                         }
                         .scrollbar-custom::-webkit-scrollbar-track {
                             background: transparent;
                         }
                         .scrollbar-custom::-webkit-scrollbar-thumb {
-                            background: #cbd5e1; /* slate-300 */
+                            background-color: #94a3b8; /* slate-400: High Contrast */
+                            border: 2px solid white; /* Elegant floating pill gutter */
                             border-radius: 9999px;
                         }
                         .scrollbar-custom::-webkit-scrollbar-thumb:hover {
-                            background: #94a3b8; /* slate-400 */
+                            background-color: #475569; /* slate-600 */
                         }
                     `}</style>
                     {options.map((opt, index) => {
@@ -104,7 +105,7 @@ const CustomSelect = ({ label, placeholder, options, value, onChange, isInvalid,
                                     onChange(optValue);
                                     setIsOpen(false);
                                 }}
-                                className={`w-full text-left px-4 py-1.5 text-xs transition-colors ${
+                                className={`w-full text-left px-3 py-1.5 text-xs rounded-xl transition-colors ${
                                     isSelected 
                                         ? 'bg-slate-100 font-bold text-slate-900' 
                                         : 'text-slate-700 hover:bg-slate-50 font-medium'
