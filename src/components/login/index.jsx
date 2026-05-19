@@ -97,9 +97,9 @@ export default function Login() {
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
                 placeholder="Ingrese su usuario"
-                className="premium-input bg-white/70 border-slate-200 hover:border-slate-300 focus:border-[#336699] rounded-xl text-slate-800 placeholder-slate-400"
+                className="premium-input bg-white/70 border-slate-200 hover:border-slate-300 focus:border-[#1b365d] rounded-xl text-slate-800 placeholder-slate-400"
                 required
-                focusBorderColor="#336699"
+                focusBorderColor="#1b365d"
               />
             </InputGroup>
           </div>
@@ -119,15 +119,15 @@ export default function Login() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="Ingrese su contraseña"
-                className="premium-input bg-white/70 border-slate-200 hover:border-slate-300 focus:border-[#336699] rounded-xl text-slate-800 placeholder-slate-400"
+                className="premium-input bg-white/70 border-slate-200 hover:border-slate-300 focus:border-[#1b365d] rounded-xl text-slate-800 placeholder-slate-400"
                 required
-                focusBorderColor="#336699"
+                focusBorderColor="#1b365d"
               />
               <InputRightElement width="3.5rem" h="full" className="flex items-center justify-center">
                 <button
                   type="button"
                   onClick={handleClick}
-                  className="p-2 rounded-xl text-slate-400 hover:text-[#336699] hover:bg-slate-100/80 active:scale-95 transition-all duration-200"
+                  className="p-2 rounded-xl text-slate-400 hover:text-[#1b365d] hover:bg-slate-100/80 active:scale-95 transition-all duration-200"
                   aria-label={show ? "Ocultar contraseña" : "Mostrar contraseña"}
                 >
                   {show ? (
@@ -149,7 +149,7 @@ export default function Login() {
             <button
               type="button"
               onClick={handleLoginClick}
-              className="premium-btn w-full bg-[#336699] hover:bg-[#2c5885] active:bg-[#254b70] text-white py-3.5 px-4 rounded-xl text-sm font-bold tracking-wide shadow-lg shadow-blue-900/10 flex items-center justify-center gap-2"
+              className="premium-btn w-full bg-[#1b365d] hover:bg-[#0f294a] active:bg-[#0a1c33] text-white py-3.5 px-4 rounded-xl text-sm font-bold tracking-wide shadow-lg shadow-indigo-950/10 flex items-center justify-center gap-2"
             >
               <span>Ingresar al Sistema</span>
               <svg className="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
